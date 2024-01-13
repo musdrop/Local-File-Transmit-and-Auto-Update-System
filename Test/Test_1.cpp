@@ -2,5 +2,6 @@
 using namespace std;
 int main()
 {
-	cout << "Hello World";
+	cout << "Hello VS";
+	system("cls");
 }
