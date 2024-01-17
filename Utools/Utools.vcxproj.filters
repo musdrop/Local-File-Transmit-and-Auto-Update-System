@@ -21,12 +21,30 @@
     <ClInclude Include="Logger.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="fileCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fileRcv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="fileSnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="newFileCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Net.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Logger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="fileCtrlDef.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
