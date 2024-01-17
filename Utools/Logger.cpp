@@ -38,6 +38,9 @@ void Logger::Debug_Log(string log_info)
 	time_t now_c = std::chrono::system_clock::to_time_t(now);
 	//输出日志信息
 	logfile << ctime(&now_c) << "|DEBUG:" << log_info << std::endl;
+	//刷新缓冲区
+	logfile.flush();
+	//打印到控制台
 	cout << ctime(&now_c) << "|DEBUG:" << log_info << std::endl;
 }
 
@@ -48,5 +51,8 @@ void Logger::Error_Log(string log_info)
 	time_t now_c = std::chrono::system_clock::to_time_t(now);
 	//输出日志信息
 	logfile << ctime(&now_c) << "|ERROR:" << log_info << std::endl;
+	//刷新缓冲区
+	logfile.flush();
+	//打印到控制台
 	cout << ctime(&now_c) << "|ERROR:" << log_info << std::endl;
 }
