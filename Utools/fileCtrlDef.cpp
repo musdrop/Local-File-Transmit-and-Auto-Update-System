@@ -1,4 +1,4 @@
-#include"fileCtrl.h"
+#include"FileCtrl.h"
 #include <vector>
 #define FP filePackage::
 #define FT fileType::
@@ -6,10 +6,10 @@ using namespace std;
 namespace jeff
 {
 	FP filePackage()
-		:suffix(FT none),byteSize(0),fileInfor(NULL)
+		:suffix(FT none), byteSize(0), fileInfor(NULL)
 	{}
 	FP filePackage(filePackage& Obj)
-		:suffix(Obj.suffix),fileName(Obj.fileName),byteSize(Obj.byteSize),fileInfor(Obj.fileInfor)
+		: suffix(Obj.suffix), fileName(Obj.fileName), byteSize(Obj.byteSize), fileInfor(Obj.fileInfor)
 	{}
 	FP filePackage(string givenFileName)
 	{
@@ -29,11 +29,11 @@ namespace jeff
 			suffix = fileType::txt;
 		else if (givenSuffix == "pdf")
 			suffix = fileType::pdf;
-		else if (givenSuffix == "docx"|| givenSuffix == "doc")
+		else if (givenSuffix == "docx" || givenSuffix == "doc")
 			suffix = fileType::word;
-		else if (givenSuffix == "pptx"|| givenSuffix == "ppt"|| givenSuffix == "ppsx")
+		else if (givenSuffix == "pptx" || givenSuffix == "ppt" || givenSuffix == "ppsx")
 			suffix = fileType::ppt;
-		else if (givenSuffix == "xlsx"|| givenSuffix == "xls")
+		else if (givenSuffix == "xlsx" || givenSuffix == "xls")
 			suffix = fileType::excel;
 		else if (givenSuffix == "zip")
 			suffix = fileType::zip;
@@ -52,7 +52,7 @@ namespace jeff
 		if (this->byteSize == 0)
 		{
 			struct stat fileInforCache;
-			// Ìá¹©ÎÄ¼þÃû×Ö·û´®£¬»ñµÃÎÄ¼þÊôÐÔ½á¹¹Ìå
+			// ï¿½á¹©ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ô½á¹¹ï¿½ï¿½
 			stat(givenFileName.c_str(), &fileInforCache);
 			this->byteSize = fileInforCache.st_size;
 		}
@@ -63,7 +63,7 @@ namespace jeff
 			splitFileName(givenFileName);
 		}
 		fstream file(givenFileName, ios::in);
-		for (int n = 0 ;n<(int)suffix;++n)
+		for (int n = 0; n < (int)suffix; ++n)
 		{
 			file >> tempCharInfor;
 			tempFileInfor.push_back(tempCharInfor);

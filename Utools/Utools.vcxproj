@@ -127,16 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="fileCtrl.h" />
-    <ClInclude Include="fileRcv.h" />
-    <ClInclude Include="fileSnd.h" />
+    <ClInclude Include="FileCtrl.h" />
+    <ClInclude Include="FileRcv.h" />
+    <ClInclude Include="FileSnd.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Net.h" />
-    <ClInclude Include="newFileCtrl.h" />
-    <ClInclude Include="user.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="fileCtrlDef.cpp" />
+    <ClCompile Include="FileCtrlDef.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Net.cpp" />
   </ItemGroup>

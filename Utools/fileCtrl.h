@@ -1,7 +1,7 @@
 #pragma once
 #ifndef  FILECTRL_H
 #define FILECTRL_H
-#include"user.h"
+#include"User.h"
 #include <string>
 #include <fstream>
 #include <sys/stat.h>

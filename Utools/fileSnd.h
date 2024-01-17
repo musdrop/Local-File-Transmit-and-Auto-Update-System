@@ -1,6 +1,6 @@
 #ifndef FILESND_H
 #define FILESND_H
-#include"fileCtrl.h"
+#include"FileCtrl.h"
 namespace jeff
 {
 	class fileSndClient :public filePackage

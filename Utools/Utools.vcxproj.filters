@@ -21,19 +21,16 @@
     <ClInclude Include="Logger.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="fileCtrl.h">
+    <ClInclude Include="FileCtrl.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="fileRcv.h">
+    <ClInclude Include="FileRcv.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="fileSnd.h">
+    <ClInclude Include="FileSnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="newFileCtrl.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="user.h">
+    <ClInclude Include="User.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +41,7 @@
     <ClCompile Include="Logger.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="fileCtrlDef.cpp">
+    <ClCompile Include="FileCtrlDef.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

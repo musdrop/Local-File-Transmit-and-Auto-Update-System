@@ -1,7 +1,7 @@
 #pragma once
 #ifndef FILERCV_H
 #define FILERCV_H
-#include"fileCtrl.h"
+#include"FileCtrl.h"
 namespace jeff
 {
 	class fileRcvServer :public filePackage
