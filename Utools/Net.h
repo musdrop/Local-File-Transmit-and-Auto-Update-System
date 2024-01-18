@@ -46,5 +46,4 @@ namespace Net
 	protected:
 		SOCKET sockfd;//套接字标识符
 	};
-
 }
