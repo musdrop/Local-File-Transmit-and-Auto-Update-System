@@ -3,13 +3,22 @@
 #include"FileCtrl.h"
 namespace jeff
 {
-	class fileSndClient :public filePackage
+	class FileList
 	{
-		User Owner;
-		char signal;
+		vector<pair<string, string>> allChosenDir;
+		void Kick(string fileName);
+		void TryOpen(string fileName);
 	public:
-		fileTransmit Snd();
+		int TotalSize();
+		void AddNewDir(string newDir);
+		void RemoveDir(string existDir);
+		string FindDir(string fileName);
+	};
 
+	class FileSnd:public FileSignal
+	{
+	public:
+		FileSnd(string fileName);
 	};
 }
 #endif
