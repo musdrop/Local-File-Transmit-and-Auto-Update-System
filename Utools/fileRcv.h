@@ -4,16 +4,6 @@
 #include"FileCtrl.h"
 namespace jeff
 {
-	class fileRcvServer :public filePackage
-	{
-
-	};
-	class fileRcvClient :public filePackage
-	{
-		std::string Cache;
-	public:
-		fileRcvClient(filePackage fileReceived);
-
-	};
+	;
 }
 #endif
