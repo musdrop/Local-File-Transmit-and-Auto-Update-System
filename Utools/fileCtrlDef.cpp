@@ -13,10 +13,12 @@ namespace jeff
 	{}
 	void FileSignal::operator>>(char** transmitCache)
 	{
+		DL("将文件载入缓冲区");
 		*transmitCache = fileInfor;
 	}
 	void  FileSignal::operator>>(TransimtSignal& transmitCache)
 	{
+		DL("将文件指令信息载入缓冲区");
 		strcpy_s(transmitCache.fileName, 60,fileName.c_str());
 		transmitCache.signal = inf;
 		transmitCache.fileByteSize = fileByteSize;
