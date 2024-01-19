@@ -9,9 +9,9 @@ namespace jeff
 			if (allChosenDir[n].first == fileName)
 				allChosenDir.erase(allChosenDir.begin() + n);
 		}
-		EL("从文件列表中删除"+fileName);
+		EL("从文件列表中删除" + fileName);
 	}
-	bool FileList::TryOpen(string fileName,bool notNewFile)
+	bool FileList::TryOpen(string fileName, bool notNewFile)
 	{
 		ifstream file(fileName);
 		if (file.good())
@@ -24,7 +24,7 @@ namespace jeff
 		{
 			file.close();
 			EL("文件预打开失败");
-			if(notNewFile)
+			if (notNewFile)
 				Kick(fileName);
 			return false;
 		}
@@ -37,11 +37,11 @@ namespace jeff
 	{
 		DL("正在处理文件路径");
 		pair<string, string>tempPair;
-		if (TryOpen(newDir,false))
+		if (TryOpen(newDir, false))
 		{
 			tempPair.second = newDir;
 			DL("文件路径写入成功");
-			int pos = newDir.find_last_of('\\')+1;
+			int pos = newDir.find_last_of('\\') + 1;
 			DL("正在解析文件名称");
 			if (pos > 0)
 			{
@@ -52,7 +52,7 @@ namespace jeff
 			else
 			{
 				EL("文件名称解析失败，进行二次解析");
-				pos = newDir.find_last_of('/')+1;
+				pos = newDir.find_last_of('/') + 1;
 				if (pos > 0)
 				{
 					tempPair.first = newDir.substr(pos, newDir.size() - 1);
@@ -93,9 +93,9 @@ namespace jeff
 	}
 
 
-	FileSnd::FileSnd(string newfileName):FileSignal(newfileName),lastPos(0)
+	FileSnd::FileSnd(string newfileName) :FileSignal(newfileName), lastPos(0)
 	{
-		file.open(newfileName,ios::binary);
+		file.open(newfileName, ios::binary);
 		struct stat temp;
 		stat(newfileName.c_str(), &temp);
 		this->fileByteSize = temp.st_size;
@@ -112,13 +112,14 @@ namespace jeff
 			delete[] fileInfor;
 		DL("新建文件发送缓冲区");
 		fileInfor = new char[SEGMENT];
-		int n = 0;
-		for(;n<SEGMENT&&!file.eof();++n)
-			file >> fileInfor[n];
-		if (file.eof())
-			lastPos += n,segmentSize = n;
-		else
-			lastPos += SEGMENT, segmentSize = SEGMENT;
+
+		//一次读入一个包
+		file.read(fileInfor, SEGMENT);
+		//获取最近一次读写操作的实际读取字节数
+		int n = file.gcount();
+		//file >> fileInfor[n];
+		lastPos += n;
+		segmentSize = n;
 	}
 	void FileSnd::Message(char newMessage)
 	{

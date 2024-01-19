@@ -1,2 +1,14 @@
-Fri Jan 19 19:14:02 2024
+Fri Jan 19 21:12:02 2024
 |DEBUG:---程序开始运行---
+Fri Jan 19 21:12:12 2024
+|ERROR:创建套接字失败！失败信息：No error
+Fri Jan 19 21:12:12 2024
+|ERROR:套接字连接失败！失败信息：No error
+Fri Jan 19 21:12:15 2024
+|ERROR:创建套接字失败！失败信息：No error
+Fri Jan 19 21:12:15 2024
+|ERROR:套接字连接失败！失败信息：No error
+Fri Jan 19 21:12:18 2024
+|ERROR:创建套接字失败！失败信息：No error
+Fri Jan 19 21:12:18 2024
+|ERROR:套接字连接失败！失败信息：No error

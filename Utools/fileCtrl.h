@@ -61,7 +61,7 @@ namespace jeff
 		FileSignal(FileSignal& Obj);
 		char GetSignal();
 		string GetFileName();
-		void operator[](unsigned char signal);
+		void operator[](unsigned char signal);//[] 运算符设置控制信息
 		void operator>>(char** transmitCache);
 		void operator>>(TransimtSignal& transmitCache);
 	};
