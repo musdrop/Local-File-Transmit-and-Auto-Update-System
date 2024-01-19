@@ -2,7 +2,7 @@
 Logger Logger::instance;//实例
 Logger::Logger()
 {
-	isConsoleOn = false;
+	isConsoleOn = true;
 }
 
 Logger::~Logger()

@@ -13,14 +13,41 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\通用工具">
+      <UniqueIdentifier>{70751a0e-8535-4629-a8de-f5cc0d21c30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\通用工具">
+      <UniqueIdentifier>{0da3e900-3787-49ba-a477-0ef2dec9c16e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ClientCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utools\Net.h">
+      <Filter>头文件\通用工具</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utools\Logger.h">
+      <Filter>头文件\通用工具</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Menu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\Net.cpp">
+      <Filter>源文件\通用工具</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\Logger.cpp">
+      <Filter>源文件\通用工具</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

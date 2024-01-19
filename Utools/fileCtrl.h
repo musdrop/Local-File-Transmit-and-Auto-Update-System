@@ -23,10 +23,10 @@ namespace jeff
 	//实际传输的结构体
 	struct TransimtSignal
 	{
-		char signal=0;
-		char fileName[60] = {'\0'};
-		unsigned int fileByteSize=0;
-		unsigned int segmentSize=0;
+		char signal = 0;
+		char fileName[60] = { '\0' };
+		unsigned int fileByteSize = 0;
+		unsigned int segmentSize = 0;
 	};
 	///
 	/// fileName会将string转换为toCstr，这样可以节省string内的一些无必要指针的空间
@@ -34,8 +34,8 @@ namespace jeff
 	enum class InfSignal
 	{
 		request = 1,
-		confirm = 2, 
-		fileNotExist=4
+		confirm = 2,
+		fileNotExist = 4
 	};
 	class FileSignal
 	{
@@ -50,10 +50,10 @@ namespace jeff
 		char* fileInfor;//文件信息
 	public:
 		FileSignal();
+		~FileSignal();
 		FileSignal(FileSignal& Obj);
 		void operator>>(char** transmitCache);
 		void operator>>(TransimtSignal& transmitCache);
-		~FileSignal();
 	};
 }
 #endif

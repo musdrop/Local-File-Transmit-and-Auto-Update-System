@@ -135,7 +135,6 @@
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="debug.cpp" />
     <ClCompile Include="FileCtrlDef.cpp" />
     <ClCompile Include="FileSndDef.cpp" />
     <ClCompile Include="Logger.cpp" />
