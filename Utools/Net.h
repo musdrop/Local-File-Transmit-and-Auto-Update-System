@@ -37,12 +37,14 @@ namespace Net
 		void Bind(Address addr);
 		void Listen(int flag);//监听
 		Socket Accept();//接受连接请求，返回连接对应客户端的套接字，阻塞
-		void Connect(string ip, int port);//连接服务器
+		bool Connect(string ip, int port);//连接服务器,返回是否连接成功
 		void Connect(Address addr);
 		void Send(const char* data, int size);//发送信息
-		int Recv(char* data, int size);//接受信息，阻塞
+		int Recv(char* data, int size);//接受信息，返回接受的字节数或错误码，阻塞
 		void Close();//关闭套接字
 
+	public:
+		Address connectedAddr;//同该Socket通信的对方的地址
 	protected:
 		SOCKET sockfd;//套接字标识符
 	};
