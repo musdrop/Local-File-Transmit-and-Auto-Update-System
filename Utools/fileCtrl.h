@@ -31,26 +31,30 @@ namespace jeff
 	///
 	/// fileName会将string转换为toCstr，这样可以节省string内的一些无必要指针的空间
 	///
-	enum class InfSignal
+	enum InfSignal
 	{
+		empty = 0,
 		request = 1,
 		confirm = 2, 
-		fileNotExist=4
+		fileNotExist=4,
+		resend = 8,
 	};
 	class FileSignal
 	{
 	protected:
 		char inf;//控制信息
 		string fileName;//文件名称
-
-
 		unsigned int fileByteSize;//总文件长度
 		unsigned int segmentSize;//实际段长度
 
 		char* fileInfor;//文件信息
 	public:
 		FileSignal();
+		FileSignal(string newfileName);
 		FileSignal(FileSignal& Obj);
+		char GetSignal();
+		string GetFileName();
+		void operator[](unsigned char signal);
 		void operator>>(char** transmitCache);
 		void operator>>(TransimtSignal& transmitCache);
 		~FileSignal();

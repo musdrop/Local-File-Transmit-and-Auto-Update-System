@@ -19,12 +19,20 @@ namespace jeff
 		void RemoveDir(string existDir);
 		//根据文件名查找文件路径
 		string FindDir(string fileName);
+		string operator[](string);
+		void Save();
 	};
 
 	class FileSnd:public FileSignal
 	{
+		int lastPos;
+		ifstream file;
 	public:
-		FileSnd(string fileName);
+		FileSnd(string);
+		void Prepare();
+		void Message(char);
+		int FileLeft();
+		~FileSnd();
 	};
 }
 #endif

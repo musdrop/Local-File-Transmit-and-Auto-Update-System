@@ -5,20 +5,36 @@ namespace jeff
 	FileSignal::FileSignal()
 		:inf(0),fileByteSize(0),segmentSize(0),fileInfor(NULL)
 	{}
+	FileSignal::FileSignal(string newfileName)
+		:fileName(newfileName),inf(0), fileByteSize(0), segmentSize(0), fileInfor(NULL)
+	{}
 	FileSignal::FileSignal(FileSignal& Obj)
 		:fileName(Obj.fileName),inf(Obj.inf)
 		,fileByteSize(Obj.fileByteSize)
 		,segmentSize(Obj.segmentSize)
 		,fileInfor(Obj.fileInfor)
 	{}
+	void FileSignal::operator[](unsigned char signal)
+	{
+		this->inf = signal;
+	}
+	char FileSignal::GetSignal()
+	{
+		return inf;
+	}
+	string FileSignal::GetFileName()
+	{
+		return fileName;
+	}
 	void FileSignal::operator>>(char** transmitCache)
 	{
-		DL("将文件载入缓冲区");
+		DL("将文件载入发送缓冲区");
 		*transmitCache = fileInfor;
+		DL(fileInfor);
 	}
 	void  FileSignal::operator>>(TransimtSignal& transmitCache)
 	{
-		DL("将文件指令信息载入缓冲区");
+		DL("将文件指令信息载入发送缓冲区");
 		strcpy_s(transmitCache.fileName, 60,fileName.c_str());
 		transmitCache.signal = inf;
 		transmitCache.fileByteSize = fileByteSize;

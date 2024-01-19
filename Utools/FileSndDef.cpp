@@ -1,5 +1,5 @@
 #include "FileSnd.h"
-
+#define FILECLEAR(x) for(int n =0;n<SEGMENT;++n)x[n]=0;
 namespace jeff
 {
 	void FileList::Kick(string fileName)
@@ -68,11 +68,11 @@ namespace jeff
 	}
 	void FileList::RemoveDir(string existDir)
 	{
-		DL("从列表中移出" + existDir);
 		for (int n = 0; n < this->allChosenDir.size(); ++n)
 		{
 			if (allChosenDir[n].second == existDir)
 			{
+				DL("从列表中移出" + existDir);
 				allChosenDir.erase(allChosenDir.begin() + n);
 				break;
 			}
@@ -86,5 +86,52 @@ namespace jeff
 				return allChosenDir[n].second;
 		}
 		return "not found";
+	}
+	string FileList::operator[](string fileName)
+	{
+		return FindDir(fileName);
+	}
+
+
+	FileSnd::FileSnd(string newfileName):FileSignal(newfileName),lastPos(0)
+	{
+		file.open(newfileName,ios::binary);
+		struct stat temp;
+		stat(newfileName.c_str(), &temp);
+		this->fileByteSize = temp.st_size;
+		if (!file.good())
+		{
+			file.close();
+			EL("文件不存在或文件路径无效");
+		}
+	}
+	void FileSnd::Prepare()
+	{
+		DL("正在准备文件发送");
+		if (fileInfor)
+			delete[] fileInfor;
+		DL("新建文件发送缓冲区");
+		fileInfor = new char[SEGMENT];
+		int n = 0;
+		for(;n<SEGMENT&&!file.eof();++n)
+			file >> fileInfor[n];
+		if (file.eof())
+			lastPos += n,segmentSize = n;
+		else
+			lastPos += SEGMENT, segmentSize = SEGMENT;
+	}
+	void FileSnd::Message(char newMessage)
+	{
+		DL("向消息缓冲区写入控制信息");
+		this->inf = newMessage;
+	}
+	int FileSnd::FileLeft()
+	{
+		DL("计算文件未发送部分长度");
+		return this->fileByteSize - lastPos;
+	}
+	FileSnd::~FileSnd()
+	{
+		file.close();
 	}
 }
