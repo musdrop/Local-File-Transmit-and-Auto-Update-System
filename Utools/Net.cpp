@@ -98,7 +98,7 @@ Net::Socket Net::Socket::Accept()
 		int port = ntohs(connaddr.sin_port);
 		DL("接受一个连接，来自：ip：" + ip + "端口：" + to_string(port));
 		//连接套接字载入连接对象的地址
-		connsk.connectedAddr = Address(ip, port);
+		connsk.connectedAddr = new Address(ip, port);
 	}
 	//返回连接套接字
 	return connsk;
@@ -108,7 +108,7 @@ Net::Socket Net::Socket::Accept()
 bool Net::Socket::Connect(string ip, int port)
 {
 	Address addr(ip, port);
-	int connectCode = ::connect(sockfd, (struct sockaddr*)&addr.sockaddr, sizeof(sockaddr));
+	int connectCode = ::connect(sockfd, (struct sockaddr*)&addr.sockaddr, sizeof(sockaddr_in));
 	if (connectCode < 0)
 	{
 		EL("套接字连接失败！失败信息：" + string(strerror(errno)));
@@ -117,6 +117,7 @@ bool Net::Socket::Connect(string ip, int port)
 	else
 	{
 		DL("套接字连接成功！连接到：ip：" + ip + "端口：" + to_string(port));
+		connectedAddr = new Address(ip, port);
 		return true;
 	}
 }
@@ -131,6 +132,7 @@ void Net::Socket::Connect(Address addr)
 	else
 	{
 		DL("套接字连接成功！连接到：ip：" + addr.ip + "端口：" + to_string(addr.port));
+		connectedAddr = new Address(addr.ip, addr.port);
 	}
 }
 
