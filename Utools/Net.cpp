@@ -86,6 +86,8 @@ Net::Socket Net::Socket::Accept()
 	sockaddr_in connaddr;
 	int socklen = sizeof(sockaddr_in);
 	SOCKET connfd = ::accept(sockfd, (sockaddr*)&connaddr, &socklen);
+	//创建连接套接字
+	Socket connsk(connfd);
 	if (connfd < 0)
 	{
 		EL("套接字接受连接失败！失败信息：" + string(strerror(errno)));
@@ -95,25 +97,27 @@ Net::Socket Net::Socket::Accept()
 		string ip = inet_ntoa(connaddr.sin_addr);
 		int port = ntohs(connaddr.sin_port);
 		DL("接受一个连接，来自：ip：" + ip + "端口：" + to_string(port));
+		//连接套接字载入连接对象的地址
+		connsk.connectedAddr = Address(ip, port);
 	}
-	//创建连接套接字
-	Socket connsk(connfd);
 	//返回连接套接字
 	return connsk;
 }
 
 
-void Net::Socket::Connect(string ip, int port)
+bool Net::Socket::Connect(string ip, int port)
 {
 	Address addr(ip, port);
-	if (::connect(sockfd, (struct sockaddr*)&addr.sockaddr, sizeof(sockaddr)) < 0)
+	int connectCode = ::connect(sockfd, (struct sockaddr*)&addr.sockaddr, sizeof(sockaddr));
+	if (connectCode < 0)
 	{
 		EL("套接字连接失败！失败信息：" + string(strerror(errno)));
-		return;
+		return false;
 	}
 	else
 	{
 		DL("套接字连接成功！连接到：ip：" + ip + "端口：" + to_string(port));
+		return true;
 	}
 }
 

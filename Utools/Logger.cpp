@@ -2,7 +2,7 @@
 Logger Logger::instance;//实例
 Logger::Logger()
 {
-
+	isConsoleOn = true;
 }
 
 Logger::~Logger()
@@ -11,7 +11,7 @@ Logger::~Logger()
 	logfile.close();
 }
 
-void Logger::Initialize(bool isRestart, string filename)
+void Logger::Initialize(bool isRestart, bool isConsoleOn, string filename)
 {
 	if (isRestart)
 	{
@@ -28,6 +28,7 @@ void Logger::Initialize(bool isRestart, string filename)
 		//日志文件加载失败
 		exit(1);
 	}
+	this->isConsoleOn = isConsoleOn;
 	Debug_Log("---程序开始运行---");
 }
 
@@ -41,7 +42,10 @@ void Logger::Debug_Log(string log_info)
 	//刷新缓冲区
 	logfile.flush();
 	//打印到控制台
-	cout << ctime(&now_c) << "|DEBUG:" << log_info << std::endl;
+	if (isConsoleOn)
+	{
+		cout << ctime(&now_c) << "|DEBUG:" << log_info << std::endl;
+	}
 }
 
 void Logger::Error_Log(string log_info)
@@ -54,5 +58,8 @@ void Logger::Error_Log(string log_info)
 	//刷新缓冲区
 	logfile.flush();
 	//打印到控制台
-	cout << ctime(&now_c) << "|ERROR:" << log_info << std::endl;
+	if (isConsoleOn)
+	{
+		cout << ctime(&now_c) << "|ERROR:" << log_info << std::endl;
+	}
 }

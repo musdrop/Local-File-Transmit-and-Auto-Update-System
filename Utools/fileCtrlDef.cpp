@@ -3,16 +3,16 @@
 namespace jeff
 {
 	FileSignal::FileSignal()
-		:inf(0),fileByteSize(0),segmentSize(0),fileInfor(NULL)
+		:inf(0), fileByteSize(0), segmentSize(0), fileInfor(NULL)
 	{}
 	FileSignal::FileSignal(string newfileName)
 		:fileName(newfileName),inf(0), fileByteSize(0), segmentSize(0), fileInfor(NULL)
 	{}
 	FileSignal::FileSignal(FileSignal& Obj)
-		:fileName(Obj.fileName),inf(Obj.inf)
-		,fileByteSize(Obj.fileByteSize)
-		,segmentSize(Obj.segmentSize)
-		,fileInfor(Obj.fileInfor)
+		:fileName(Obj.fileName), inf(Obj.inf)
+		, fileByteSize(Obj.fileByteSize)
+		, segmentSize(Obj.segmentSize)
+		, fileInfor(Obj.fileInfor)
 	{}
 	void FileSignal::operator[](unsigned char signal)
 	{

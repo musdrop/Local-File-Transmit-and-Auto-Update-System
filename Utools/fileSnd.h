@@ -5,6 +5,7 @@ namespace jeff
 {
 	class FileList
 	{
+	private:
 		vector<pair<string, string>> allChosenDir;//fileName+fileDir
 		//根据文件名移除
 		void Kick(string fileName);
