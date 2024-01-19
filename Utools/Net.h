@@ -44,7 +44,7 @@ namespace Net
 		void Close();//关闭套接字
 
 	public:
-		Address connectedAddr;//同该Socket通信的对方的地址
+		Address* connectedAddr;//同该Socket通信的对方的地址
 	protected:
 		SOCKET sockfd;//套接字标识符
 	};
