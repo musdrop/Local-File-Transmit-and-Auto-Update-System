@@ -16,6 +16,7 @@ ClientCtrl::~ClientCtrl()
 //2：登录访问端成功
 int ClientCtrl::Login(int id, Identity idt, vector<string>& accessibleFies)
 {
+	Sleep(1000);
 	return 0;
 }
 

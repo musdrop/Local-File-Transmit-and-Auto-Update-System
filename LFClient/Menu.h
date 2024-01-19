@@ -23,6 +23,7 @@ public:
 	void ControlMenu();// 主菜单箭头移动和选项控制
 	//功能菜单实现
 	void Login(Identity idt);
+	void Logining(int id,Identity idt);
 
 };
 

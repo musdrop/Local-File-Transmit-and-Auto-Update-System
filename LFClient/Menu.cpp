@@ -144,39 +144,11 @@ void Menu::Login(Identity idt)
 		//回车键
 		else if (input == 13)
 		{
-			vector<string> accessibleFiles;
-			cout << endl << "登录中..." << endl;
-			int	logcode = clientCtrl->Login(num, idt, accessibleFiles);
-			if (logcode == -2)
+			//登录中
+			if (num > 0)
 			{
-				cout << "登录访问端失败，已有访问端" << endl;
-			}
-			if (logcode == -1)
-			{
-				cout << "登录文件源失败，已有文件源" << endl;
-			}
-			if (logcode == 0)
-			{
-				cout << "登录失败" << endl;
-			}
-			if (logcode <= 0)
-			{
-				cout << "任意键继续" << endl;
-				_getch();
-				system("cls");
-				cout << "请输入用户id：";
-				continue;
-			}
-			if (logcode == 1)
-			{
-				clientCtrl->RunSource();
-				cout << "登录文件源成功" << endl;
-
-			}
-			if (logcode == 2)
-			{
-				clientCtrl->RunVisitor();
-				cout << "登录访问端成功" << endl;
+				Logining(num, idt);
+				num = 0;
 			}
 		}
 		//回退键
@@ -192,6 +164,49 @@ void Menu::Login(Identity idt)
 		else if (input == 27) {
 			break;
 		}
+	}
+}
+
+void Menu::Logining(int id, Identity idt)
+{
+	vector<string> accessibleFiles;
+	cout << endl << "登录中..." << endl;
+	int	logcode = clientCtrl->Login(id, idt, accessibleFiles);
+	//失败类型
+	if (logcode == -2)
+	{
+		cout << "登录访问端失败，已有访问端" << endl;
+	}
+	if (logcode == -1)
+	{
+		cout << "登录文件源失败，已有文件源" << endl;
+	}
+	if (logcode == 0)
+	{
+		cout << "登录失败" << endl;
+	}
+	//失败重试
+	if (logcode <= 0)
+	{
+		cout << "任意键继续...";
+		_getch();
+		system("cls");
+		cout << "请输入用户id：";
+		return;
+	}
+	//登录成功
+	if (logcode == 1)
+	{
+
+		clientCtrl->RunSource();
+		cout << "登录文件源成功" << endl;
+		Sleep(1000);
+	}
+	if (logcode == 2)
+	{
+		clientCtrl->RunVisitor();
+		cout << "登录访问端成功" << endl;
+		Sleep(1000);
 	}
 }
 
