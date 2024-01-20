@@ -26,13 +26,11 @@ namespace jeff
 
 	class FileSnd:public FileSignal
 	{
-		int lastPos;
 		ifstream file;
 	public:
 		FileSnd(string);
 		void Prepare();
-		void Message(char);
-		int FileLeft();
+		void Close();
 		~FileSnd();
 	};
 }

@@ -18,6 +18,11 @@ namespace jeff
 	{
 		this->inf = signal;
 	}
+	void FileSignal::Message(char newInf)
+	{
+		DL("向消息缓冲区写入控制信息");
+		this->inf = newInf;
+	}
 	char FileSignal::GetSignal()
 	{
 		return inf;
@@ -32,7 +37,7 @@ namespace jeff
 		*transmitCache = fileInfor;
 		DL(fileInfor);
 	}
-	void  FileSignal::operator>>(TransimtSignal& transmitCache)
+	void  FileSignal::operator>>(TransmitSignal& transmitCache)
 	{
 		DL("将文件指令信息载入发送缓冲区");
 		strcpy_s(transmitCache.fileName, 60,fileName.c_str());

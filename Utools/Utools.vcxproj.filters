@@ -16,17 +16,11 @@
     <Filter Include="头文件\通用工具">
       <UniqueIdentifier>{4296b2cf-dd18-49f9-b0df-c3236a565338}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\用户端">
+      <UniqueIdentifier>{a2ac6615-b6bc-4478-a411-489714f50d0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileCtrl.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FileRcv.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSnd.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="User.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -35,6 +29,15 @@
     </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>头文件\通用工具</Filter>
+    </ClInclude>
+    <ClInclude Include="FileCtrl.h">
+      <Filter>头文件\用户端</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSnd.h">
+      <Filter>头文件\用户端</Filter>
+    </ClInclude>
+    <ClInclude Include="FileRcv.h">
+      <Filter>头文件\用户端</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -48,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FileSndDef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FileRcvDef.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

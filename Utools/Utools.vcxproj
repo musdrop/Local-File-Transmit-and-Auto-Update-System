@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileCtrlDef.cpp" />
+    <ClCompile Include="FileRcvDef.cpp" />
     <ClCompile Include="FileSndDef.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Net.cpp" />

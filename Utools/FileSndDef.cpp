@@ -93,12 +93,9 @@ namespace jeff
 	}
 
 
-	FileSnd::FileSnd(string newfileName) :FileSignal(newfileName), lastPos(0)
+	FileSnd::FileSnd(string newfileName) :FileSignal(newfileName)
 	{
 		file.open(newfileName, ios::binary);
-		struct stat temp;
-		stat(newfileName.c_str(), &temp);
-		this->fileByteSize = temp.st_size;
 		if (!file.good())
 		{
 			file.close();
@@ -112,24 +109,16 @@ namespace jeff
 			delete[] fileInfor;
 		DL("新建文件发送缓冲区");
 		fileInfor = new char[SEGMENT];
-
 		//一次读入一个包
 		file.read(fileInfor, SEGMENT);
 		//获取最近一次读写操作的实际读取字节数
 		int n = file.gcount();
-		//file >> fileInfor[n];
-		lastPos += n;
 		segmentSize = n;
+		this->fileByteSize += segmentSize;
 	}
-	void FileSnd::Message(char newMessage)
+	void FileSnd::Close()
 	{
-		DL("向消息缓冲区写入控制信息");
-		this->inf = newMessage;
-	}
-	int FileSnd::FileLeft()
-	{
-		DL("计算文件未发送部分长度");
-		return this->fileByteSize - lastPos;
+		file.close();
 	}
 	FileSnd::~FileSnd()
 	{
