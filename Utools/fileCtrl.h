@@ -46,6 +46,7 @@ namespace jeff
 		readyRecieve,//用于响应文件发送请求：响应方是服务器时携带文件通道监听的端口
 		//客户端要发文件时向服务器请求，拿到携带端口号的响应根据端口号连接服务器建立文件通道
 		//客户端要收文件时拿到的请求里携带服务器的端口号，同样以此建立文件通道
+		resendFileRequest,//当文件传输失败时请求重新传输
 
 		sendWholeFile,//文件发送方发送完时使用：携带文件总字节数，最后一个包的有效字节数
 		fileNotExist//用于文件源响应文件访问请求
@@ -65,9 +66,11 @@ namespace jeff
 		FileSignal(FileSignal& Obj);
 		char GetSignal();
 		string GetFileName();
+		void Message(char);
 		void operator[](unsigned char signal);//[] 运算符设置控制信息
 		void operator>>(char** transmitCache);
 		void operator>>(TransmitSignal& transmitCache);
+		~FileSignal();
 	};
 }
 #endif

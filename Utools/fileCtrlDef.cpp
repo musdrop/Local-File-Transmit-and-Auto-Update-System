@@ -37,6 +37,11 @@ namespace jeff
 	{
 		this->inf = signal;
 	}
+	void FileSignal::Message(char newInf)
+	{
+		DL("向消息缓冲区写入控制信息");
+		this->inf = newInf;
+	}
 	char FileSignal::GetSignal()
 	{
 		return inf;

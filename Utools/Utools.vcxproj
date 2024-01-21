@@ -132,13 +132,17 @@
     <ClInclude Include="FileSnd.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Net.h" />
+    <ClInclude Include="ServerCore.h" />
+    <ClInclude Include="ServerFile.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileCtrlDef.cpp" />
+    <ClCompile Include="FileRcvDef.cpp" />
     <ClCompile Include="FileSndDef.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Net.cpp" />
+    <ClCompile Include="ServerCoreDef.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
