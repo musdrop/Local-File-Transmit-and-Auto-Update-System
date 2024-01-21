@@ -66,6 +66,7 @@ namespace jeff
 		void operator[](unsigned char signal);//[] 运算符设置控制信息
 		void operator>>(char** transmitCache);
 		void operator>>(TransmitSignal& transmitCache);
+		~FileSignal();
 	};
 }
 #endif
