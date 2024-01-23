@@ -130,17 +130,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Utools\FileCtrl.h" />
+    <ClInclude Include="..\Utools\FileRcv.h" />
+    <ClInclude Include="..\Utools\FileSnd.h" />
     <ClInclude Include="..\Utools\Logger.h" />
     <ClInclude Include="..\Utools\Net.h" />
     <ClInclude Include="ClientCtrl.h" />
     <ClInclude Include="Menu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Utools\FileCtrlDef.cpp" />
+    <ClCompile Include="..\Utools\FileRcvDef.cpp" />
+    <ClCompile Include="..\Utools\FileSndDef.cpp" />
     <ClCompile Include="..\Utools\Logger.cpp" />
     <ClCompile Include="..\Utools\Net.cpp" />
     <ClCompile Include="ClientCtrl.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ClientLog.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,14 +4,19 @@ namespace jeff
 	FileRcv::FileRcv(TransmitSignal inforReceived)
 	{
 		inf = inforReceived.signal;
+		string fileName = inforReceived.fileName;
 		this->fileName = fileName;
 		this->segmentSize = inforReceived.segmentSize;
 		file.open(fileName, ios::binary);
 	}
 	void FileRcv::Receive(char* fileInfor, int segmentLen)
 	{
-		this->fileByteSize+=this->segmentSize = segmentLen;
-		file.write(fileInfor, this->segmentSize);
+		if (segmentLen == -1)
+		{
+			segmentLen = segmentSize;
+		}
+		this->fileByteSize += segmentLen;
+		file.write(fileInfor, segmentLen);
 		DL("接收到文件并进行写入");
 	}
 	bool FileRcv::End(TransmitSignal inforReceived)

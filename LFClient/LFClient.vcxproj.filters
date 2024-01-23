@@ -19,6 +19,12 @@
     <Filter Include="头文件\通用工具">
       <UniqueIdentifier>{0da3e900-3787-49ba-a477-0ef2dec9c16e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="源文件\客户端">
+      <UniqueIdentifier>{0e3c70f3-4045-4220-8bc8-0944a380e832}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\客户端">
+      <UniqueIdentifier>{8bca8b81-5156-4685-86c6-9e85bf5c66d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Menu.h">
@@ -32,6 +38,15 @@
     </ClInclude>
     <ClInclude Include="..\Utools\Logger.h">
       <Filter>头文件\通用工具</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utools\FileCtrl.h">
+      <Filter>头文件\客户端</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utools\FileRcv.h">
+      <Filter>头文件\客户端</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utools\FileSnd.h">
+      <Filter>头文件\客户端</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,5 +65,19 @@
     <ClCompile Include="Main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="..\Utools\FileCtrlDef.cpp">
+      <Filter>源文件\客户端</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\FileRcvDef.cpp">
+      <Filter>源文件\客户端</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\FileSndDef.cpp">
+      <Filter>源文件\客户端</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ClientLog.txt">
+      <Filter>资源文件</Filter>
+    </Text>
   </ItemGroup>
 </Project>

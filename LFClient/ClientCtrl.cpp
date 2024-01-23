@@ -3,11 +3,6 @@
 
 ClientCtrl::ClientCtrl()
 {
-	isRunning = false;
-	isLoggedIn = false;
-	commandSocket = NULL;
-	fileSocket = NULL;
-	commandsListen = NULL;
 }
 
 ClientCtrl::~ClientCtrl()
@@ -17,12 +12,14 @@ ClientCtrl::~ClientCtrl()
 	delete commandsListen;
 }
 
-//-2：登录访问端失败，已有访问端
-//-1：登录文件源失败，已有文件源
-//0：登录失败
-//1：登录文件源成功
-//2：登录访问端成功
-int ClientCtrl::Login(int id, Identity idt, vector<string>& accessibleFies)
+/*
+-2：登录访问端失败，已有访问端
+-1：登录文件源失败，已有文件源
+0：登录失败
+1：登录文件源成功
+2：登录访问端成功
+*/
+int ClientCtrl::Login(int id, Identity idt)
 {
 	//尝试建立指令通道
 	commandSocket = new Socket();
@@ -35,50 +32,36 @@ int ClientCtrl::Login(int id, Identity idt, vector<string>& accessibleFies)
 	//建立指令监听线程
 	isRunning = true;
 	commandsListen = new thread(&ClientCtrl::CommandsListen, this);
+	//建立指令处理线程
+	commandsHandle = new thread(&ClientCtrl::CommandsHandle, this);
 	//等待...
-	while (commandsQue.empty()) {}
+	logInCode = 0;
+	while (!logInCode) {}
 	//拿到登录响应
-	TransmitSignal ts = commandsQue.front();
-	commandsQue.pop();
-	char kind;//登录类型或失败原因
-	ts.GetContent(1, 1, &kind);//提取登录类型或失败原因
 	//登录成功
-	if (ts.signal == loginSuccess)
+	if (logInCode == 1)//文件源
 	{
-		if (kind == 0)//文件源
-		{
-			return 1;
-		}
-		else if (kind == 1)//访问端
-		{
-			return 2;
-		}
+		isLoggedIn = true;
+		return 1;
+	}
+	else if (logInCode == 2)//访问端
+	{
+		isLoggedIn = true;
+		return 2;
 	}
 	//登录失败则根据失败信息直接返回失败码
-	else
+	else if (logInCode == 3)//已有文件源
 	{
-		if (kind == 0)//已有文件源
-		{
-			return -1;
-		}
-		else if (kind == 1)//已有访问端
-		{
-			return -2;
-		}
-		else//其他
-		{
-			return 0;
-		}
+		return -1;
 	}
-	// 
-	//访问端：继续等待可访问文件的列表
-	//获得列表并载入accessibleFies
-	// 
-	//文件源：
-	// 
-	//返回成功码
-	Sleep(1000);
-	return 0;
+	else if (logInCode == 4)//已有访问端
+	{
+		return -2;
+	}
+	else if (logInCode == 5)//错误
+	{
+		return 0;
+	}
 }
 
 void ClientCtrl::RunSource()
@@ -87,6 +70,35 @@ void ClientCtrl::RunSource()
 
 void ClientCtrl::RunVisitor()
 {
+}
+
+void ClientCtrl::ExitVistor()
+{
+	isRunning = false;
+	isLoggedIn = false;
+	commandSocket->Close();
+	commandSocket = NULL;
+	fileSocket->Close();
+	fileSocket = NULL;
+	commandsListen = NULL;
+}
+
+void ClientCtrl::UpdataListRequest()
+{
+	TransmitSignal ts;
+	ts.signal = updataListRequest;
+	commandSocket->Send((const char*)&ts, sizeof(ts));
+}
+
+void ClientCtrl::SendFileRequest(string filename)
+{
+	TransmitSignal ts;
+	ts.signal = fileRequest;
+	for (int i = 0; i < filename.size(); i++)
+	{
+		ts.fileName[i] = filename[i];
+	}
+	commandSocket->Send((const char*)&ts, sizeof(ts));
 }
 
 void ClientCtrl::SendLoginRequest(int id, Identity idt)
@@ -116,9 +128,186 @@ void ClientCtrl::CommandsListen()
 		int recvCode = commandSocket->Recv((char*)&ts, sizeof(ts));
 		if (recvCode <= 0)
 		{
+			isLoggedIn = false;
+			//断开连接
+			isRunning = false;
 			break;
 		}
 		commandsQue.push(ts);
 	}
 }
+
+void ClientCtrl::CommandsHandle()
+{
+	while (isRunning)
+	{
+		if (!commandsQue.empty())
+		{
+			TransmitSignal ts = commandsQue.front();
+			commandsQue.pop();
+			if (ts.signal == loginSuccess)
+			{
+				char kind;
+				ts.GetContent(1, 1, &kind);
+				if (kind == 0)
+				{
+					logInCode = 1;
+				}
+				else if (kind == 1)
+				{
+					logInCode = 2;
+				}
+			}
+			else if (ts.signal == loginFail)
+			{
+				char reason;
+				ts.GetContent(1, 1, &reason);
+				if (reason == 0)
+				{
+					logInCode = 3;
+				}
+				else if (reason == 1)
+				{
+					logInCode = 4;
+				}
+				else if (reason == 3)
+				{
+					logInCode = 5;
+				}
+			}
+			else if (ts.signal == fileNotExist)
+			{
+				clientMenu->gotFileCode = 2;
+			}
+			else if (ts.signal == sendLongMessageRequest)
+			{
+				int port;
+				char messagekind;
+				ts.GetContent(1, 1, &messagekind);
+				port = ts.fileByteSize;
+				//执行长信息接受线程
+				thread longMessageRecv(&ClientCtrl::LongMessageRecv, this, port, ts.segmentSize, messagekind);
+			}
+			else if (ts.signal == sendFileRequest)
+			{
+				int port;
+				port = ts.fileByteSize;
+				FileRcv fr(ts);
+				//执行文件接受线程
+				thread longMessageRecv(&ClientCtrl::FileRecv, this, port, fr);
+			}
+			else if (ts.signal == readyRecieve)
+			{
+
+			}
+			else if (ts.signal == sendWholeFile)
+			{
+				lastSegmentSize = ts.segmentSize;
+				isLast = true;
+			}
+			else if (ts.signal == fileSourceNotExist)
+			{
+				clientMenu->gotListCode = 1;
+				clientMenu->gotFileCode = 1;
+			}
+		}
+	}
+}
+
+void ClientCtrl::ToFileNameInList(char* buff, int length)
+{
+	if (buff[0] == '\0')
+	{
+		return;
+	}
+	for (int i = 0; i < length; i += 63)
+	{
+		string name = buff + i;
+		if (name == "")
+		{
+			break;
+		}
+		clientMenu->AddtoList(name);
+	}
+}
+
+void ClientCtrl::LongMessageRecv(int port, unsigned int segmentSize, char kind)
+{
+	//默认是文件列表
+	if (kind == 0)
+	{
+		//连接服务器文件端口
+		fileSocket = new Socket();
+		if (!fileSocket->Connect(ServerIp, port))
+		{
+			//连接失败
+			clientMenu->gotListCode = -1;
+			return;
+		}
+		//回复我准备好了
+		isLast = false;
+		TransmitSignal ts;
+		ts.signal = readyRecieve;
+		commandSocket->Send((const char*)&ts, sizeof(ts));
+		//清空文件列表
+		clientMenu->ClearList();
+		//开始接受
+		char* namesbuff = new char[segmentSize] {};
+		char* tempbuff = new char[segmentSize] {};
+		while (!isLast)
+		{
+			int recCode = fileSocket->Recv(tempbuff, segmentSize);
+			if (recCode <= 0)
+			{
+				break;
+			}
+			ToFileNameInList(namesbuff, segmentSize);
+			for (int i = 0; i < segmentSize; i++)
+			{
+				namesbuff[i] = tempbuff[i];
+			}
+		}
+		while (!isLast) {}
+		ToFileNameInList(namesbuff, lastSegmentSize);
+		clientMenu->gotListCode = 3;
+	}
+}
+
+void ClientCtrl::FileRecv(int port, FileRcv& fr)
+{
+	//连接服务器文件端口
+	fileSocket = new Socket();
+	if (!fileSocket->Connect(ServerIp, port))
+	{
+		//连接失败
+		clientMenu->gotFileCode = -1;
+		return;
+	}
+	//回复我准备好了
+	isLast = false;
+	TransmitSignal ts;
+	ts.signal = readyRecieve;
+	commandSocket->Send((const char*)&ts, sizeof(ts));
+	//开始接受
+	char* filebuff = new char[fr.segmentSize] {};
+	char* tempbuff = new char[fr.segmentSize] {};
+	int recCode = fileSocket->Recv(filebuff, fr.segmentSize);
+	while (!isLast)
+	{
+		recCode = fileSocket->Recv(tempbuff, fr.segmentSize);
+		if (recCode <= 0)
+		{
+			break;
+		}
+		fr.Receive(filebuff, fr.segmentSize);
+		for (int i = 0; i < fr.segmentSize; i++)
+		{
+			filebuff[i] = tempbuff[i];
+		}
+	}
+	while (!isLast) {}
+	fr.Receive(filebuff, lastSegmentSize);
+	clientMenu->gotFileCode = 3;
+}
+
 

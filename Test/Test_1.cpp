@@ -2,19 +2,16 @@
 #include <fstream>
 #include "Test_1.h"
 using namespace std;
-class TransmitSignal
+enum me
 {
-public:
-	char signal = 0;
-	char fileName[63] = { '\0' };
-	unsigned int fileByteSize = 0;
-	unsigned int segmentSize = 0;
-	void SetContent(int pos, int width, char* data);//字节层面向结构体内写入内容
-	void GetContent(int pos, int width, char* data);//字节层面向结构体内提取内容
+	me0,
+	me1,
 };
 int main()
 {
-	cout << sizeof(TransmitSignal);
+	char* b = new char[10] {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
+	string B = b;
+	cout << B.size() << '\n' << (B == "");
 	//ifstream fil("test.txt");
 	//char a[10]{ 'A','A','A','A','A','A','A','A','A','A' };
 	//fil.read(a, 10);

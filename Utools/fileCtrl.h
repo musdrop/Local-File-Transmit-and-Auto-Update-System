@@ -25,7 +25,7 @@ namespace jeff
 	{
 	public:
 		char signal = 0;
-		char fileName[60] = { '\0' };
+		char fileName[63] = { '\0' };
 		unsigned int fileByteSize = 0;
 		unsigned int segmentSize = 0;
 		void SetContent(int pos, int width, char* data);//字节层面向结构体内写入内容
@@ -39,25 +39,47 @@ namespace jeff
 		visitorloginRequest,//用于客户端登录时向服务器发起：携带id
 		sourceloginRequest,//用于客户端登录时向服务器发起：携带id
 		fileRequest,//用于访问端尝试访问文件源文件时发起：携带文件名
+		updataListRequest,//更新文件列表请求
 		loginSuccess,//响应登录请求，携带成功登录的类型
 		loginFail,//响应登录请求：携带失败原因
 
-		sendFileRequest,//用于服务器与客户端之间任意一端打算向另一端发送文件时发起：请求方时服务器时携带监听的端口
+		sendFileRequest,
+		/*
+		用于服务器与客户端之间任意一端打算向另一端发送文件时发起：请求方时服务器时携带监听的端口，
+		{
+			char消息类型
+			char[63]文件名
+			uint包长
+			uint端口号
+		}
+		*/
+		sendLongMessageRequest,
+		/*长信息发送请求，走文件通道
+		{
+			char消息类型
+			char长信息类型
+			uint包长
+			uint端口号
+		}
+		*/
 		readyRecieve,//用于响应文件发送请求：响应方是服务器时携带文件通道监听的端口
 		//客户端要发文件时向服务器请求，拿到携带端口号的响应根据端口号连接服务器建立文件通道
 		//客户端要收文件时拿到的请求里携带服务器的端口号，同样以此建立文件通道
 		resendFileRequest,//当文件传输失败时请求重新传输
 
 		sendWholeFile,//文件发送方发送完时使用：携带文件总字节数，最后一个包的有效字节数
-		fileNotExist//用于文件源响应文件访问请求
+
+		fileNotExist,//用于文件源响应文件访问请求
+		fileSourceNotExist
 	};
 	class FileSignal
 	{
+	public:
+		unsigned int segmentSize;//实际段长度
 	protected:
 		char inf;//控制信息
 		string fileName;//文件名称
 		unsigned int fileByteSize;//总文件长度
-		unsigned int segmentSize;//实际段长度
 
 		char* fileInfor;//文件信息
 	public:

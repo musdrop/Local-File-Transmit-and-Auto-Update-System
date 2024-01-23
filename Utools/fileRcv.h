@@ -4,12 +4,12 @@
 #include"FileCtrl.h"
 namespace jeff
 {
-	class FileRcv:public FileSignal
+	class FileRcv :public FileSignal
 	{
 		ofstream file;
 	public:
 		FileRcv(TransmitSignal);
-		void Receive(char* fileInfor,int segmentLen=SEGMENT);
+		void Receive(char* fileInfor, int segmentLen = -1);
 		bool End(TransmitSignal inforReceived);
 		~FileRcv();
 	};

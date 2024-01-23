@@ -2,22 +2,23 @@
 
 Menu::Menu(ClientCtrl* clientCtrl)
 {
+	//菜单与控制部分互相绑定
 	this->clientCtrl = clientCtrl;
-	//加载菜单表
+	clientCtrl->clientMenu = this;
+	//加载菜单
 	//登录菜单
-	vector<string> menu1;
-	menu1.push_back("1.登录文件源");
-	menu1.push_back("2.登录访问端");
-	menu1.push_back("3.退出程序");
-	menus.push_back(menu1);
-	//文件源菜单
-	vector<string> menu2;
-	menus.push_back(menu2);
+	mainMenu.push_back("1.登录文件源");
+	mainMenu.push_back("2.登录访问端");
+	mainMenu.push_back("3.退出程序");
 	//访问端菜单
-	vector<string> menu3;
-	menus.push_back(menu3);
-	curm = &(menus[0]);
-	menuNum = 0;
+	visitorMenu.push_back("1.访问文件");
+	visitorMenu.push_back("2.更新列表");
+	visitorMenu.push_back("3.退出登录");
+	//文件源菜单
+	sourceMenu.push_back("1.订阅文件");
+	sourceMenu.push_back("2.移除订阅");
+	sourceMenu.push_back("3.退出登录");
+	curm = &mainMenu;
 }
 
 Menu::~Menu()
@@ -29,10 +30,76 @@ void Menu::Start()
 	ShowMenu();
 	while (true)
 	{
-		ControlMenu();
+		ControlMainMenu();
 	}
 }
 
+void Menu::StartVisitor()
+{
+	while (true)
+	{
+		system("cls");
+		cout << "正在尝试获取可访问文件列表..." << endl;
+		//等待
+		while (!gotListCode) {}
+		if (gotListCode == 1)
+		{
+			cout << "无文件源" << endl;
+		}
+		else if (gotListCode == 2)
+		{
+			cout << "暂无可访问的文件" << endl;
+		}
+		//重试
+		if (gotListCode < 3)
+		{
+			gotListCode = 0;
+			cout << "回车可再次尝试获取可访问文件列表...";
+			char input;
+			while (true)
+			{
+				input = _getch();
+				if (input == 13 || input == 27)
+				{
+					break;
+				}
+			}
+			if (input == 13)
+			{
+				clientCtrl->UpdataListRequest();
+				continue;
+			}
+			else if (input == 27)
+			{
+				clientCtrl->ExitVistor();
+				break;
+			}
+		}
+		//成功获得列表
+		if (gotListCode == 3)
+		{
+			gotListCode = 0;
+			curm = &visitorMenu;
+			optionsNum = 0;
+			system("cls");
+			cout << "可访问的文件有：" << endl;
+			for (int i = 0; i < accessibleFiles.size(); i++)
+			{
+				cout << accessibleFiles[i] << endl;
+			}
+			ShowMenu();
+			while (true)
+			{
+				bool isExit = false;
+				ControlVisitorMenu(isExit);
+				if (isExit)
+				{
+					break;
+				}
+			}
+		}
+	}
+}
 void Menu::ShowMenu()
 {
 	for (int i = 0; i < curm->size(); i++)
@@ -64,29 +131,12 @@ int Menu::Judgement()
 	return 2;
 }
 
-void Menu::Enteroption(int optionsNum)
-{
-	switch (optionsNum)
-	{
-	case 0:
-		Login(FileSource);
-		break;
-	case 1:
-		Login(FileVisitor);
-		break;
-	case 2:
-		exit(0);
-		break;
-	default:
-		break;
-	}
-}
-void Menu::ControlMenu()
+void Menu::ControlMainMenu()
 {
 	switch (Judgement())
 	{
 	case 1:
-		if (optionsNum == curm->size() - 1)
+		if (optionsNum == mainMenu.size() - 1)
 		{
 			optionsNum = 0;
 		}
@@ -99,7 +149,7 @@ void Menu::ControlMenu()
 	case -1:
 		if (optionsNum == 0)
 		{
-			optionsNum = curm->size() - 1;
+			optionsNum = mainMenu.size() - 1;
 		}
 		else
 		{
@@ -107,7 +157,67 @@ void Menu::ControlMenu()
 		}
 		break;
 	case 0:
-		Enteroption(optionsNum);
+		if (optionsNum == 0)
+		{
+			Login(FileSource);
+		}
+		else if (optionsNum == 1)
+		{
+			Login(FileVisitor);
+		}
+		else if (optionsNum == 2)
+		{
+			exit(0);
+		}
+		break;
+	case 2:
+		return;
+	default:
+		break;
+	}
+	system("cls");
+	ShowMenu();
+}
+
+void Menu::ControlVisitorMenu(bool& isExit)
+{
+	switch (Judgement())
+	{
+	case 1:
+		if (optionsNum == visitorMenu.size() - 1)
+		{
+			optionsNum = 0;
+		}
+		else
+		{
+			optionsNum++;
+		}
+		break;
+
+	case -1:
+		if (optionsNum == 0)
+		{
+			optionsNum = visitorMenu.size() - 1;
+		}
+		else
+		{
+			optionsNum--;
+		}
+		break;
+	case 0:
+		//执行选项函数
+		if (optionsNum == 0)
+		{
+			FileRequest();
+		}
+		else if (optionsNum == 1)
+		{
+			UpdataList();
+		}
+		else if (optionsNum == 2)
+		{
+			isExit = true;
+		}
 		break; // 跳转到选项进入模块
 	case 2:
 		return;
@@ -115,6 +225,11 @@ void Menu::ControlMenu()
 		break;
 	}
 	system("cls");
+	cout << "可访问的文件有：" << endl;
+	for (int i = 0; i < accessibleFiles.size(); i++)
+	{
+		cout << accessibleFiles[i] << endl;
+	}
 	ShowMenu();
 }
 
@@ -149,6 +264,10 @@ void Menu::Login(Identity idt)
 			{
 				Logining(num, idt);
 				num = 0;
+				if (isLoggedIn)
+				{
+					break;
+				}
 			}
 		}
 		//回退键
@@ -169,9 +288,8 @@ void Menu::Login(Identity idt)
 
 void Menu::Logining(int id, Identity idt)
 {
-	vector<string> accessibleFiles;
 	cout << endl << "登录中..." << endl;
-	int	logcode = clientCtrl->Login(id, idt, accessibleFiles);
+	int	logcode = clientCtrl->Login(id, idt);
 	//失败类型
 	if (logcode == -2)
 	{
@@ -195,18 +313,140 @@ void Menu::Logining(int id, Identity idt)
 		return;
 	}
 	//登录成功
+	isLoggedIn = true;
+	this->id = id;
 	if (logcode == 1)
 	{
-
+		curIdt = FileSource;
 		clientCtrl->RunSource();
 		cout << "登录文件源成功" << endl;
 		Sleep(1000);
+
 	}
 	if (logcode == 2)
 	{
+		curIdt = FileVisitor;
 		clientCtrl->RunVisitor();
 		cout << "登录访问端成功" << endl;
 		Sleep(1000);
+		StartVisitor();
 	}
+}
+
+void Menu::FileRequest()
+{
+	while (true)
+	{
+		system("cls");
+		cout << "可访问的文件有：" << endl;
+		for (int i = 0; i < accessibleFiles.size(); i++)
+		{
+			cout << accessibleFiles[i] << endl;
+		}
+		cout << "请输入文件名(无输入时回车返回菜单)：";
+		string input;
+		getline(cin, input);
+		if (input == "")
+		{
+			break;
+		}
+		auto it = find(accessibleFiles.begin(), accessibleFiles.end(), input);
+		if (it == accessibleFiles.end())
+		{
+			cout << "该文件不在可访问列表中" << endl
+				<< "按任意键继续...";
+			_getch();
+			continue;
+		}
+		gotFileCode = 0;
+		clientCtrl->SendFileRequest(input);
+		cout << "正在获取文件..." << endl;
+		//等待文件
+		while (!gotFileCode) {}
+		if (gotFileCode == 1)
+		{
+			cout << "无文件源" << endl;
+		}
+		else if (gotFileCode == 2)
+		{
+			cout << "未找到该文件" << endl;
+		}
+		if (gotFileCode < 3)
+		{
+			cout << "按任意键继续...";
+			_getch();
+			break;
+		}
+		if (gotFileCode == 3)
+		{
+			cout << "成功获取文件" << input << endl;
+			cout << "按任意键继续...";
+			_getch();
+			break;
+		}
+	}
+}
+
+void Menu::UpdataList()
+{
+	gotListCode = 0;
+	clientCtrl->UpdataListRequest();
+	while (true)
+	{
+		system("cls");
+		cout << "正在尝试获取可访问文件列表..." << endl;
+		//等待
+		while (!gotListCode) {}
+		if (gotListCode == 1)
+		{
+			cout << "无文件源" << endl;
+		}
+		else if (gotListCode == 2)
+		{
+			cout << "暂无可访问的文件" << endl;
+		}
+		//重试
+		if (gotListCode < 3)
+		{
+			gotListCode = 0;
+			cout << "回车可再次尝试获取可访问文件列表...";
+			char input;
+			while (true)
+			{
+				input = _getch();
+				if (input == 13 || input == 27)
+				{
+					break;
+				}
+			}
+			if (input == 13)
+			{
+				clientCtrl->UpdataListRequest();
+				continue;
+			}
+			else if (input == 27)
+			{
+				clientCtrl->ExitVistor();
+				break;
+			}
+		}
+		//成功获得列表
+		if (gotListCode == 3)
+		{
+			cout << "成功更新列表" << endl;
+			Sleep(1000);
+			break;
+		}
+	}
+}
+
+void Menu::AddtoList(string name)
+{
+	accessibleFiles.push_back(name);
+}
+
+void Menu::ClearList()
+{
+	accessibleFiles.clear();
 }
 

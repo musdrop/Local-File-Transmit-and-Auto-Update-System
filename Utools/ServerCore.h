@@ -9,6 +9,7 @@ namespace jeff
 	class Connection
 	{
 		int id;
+		//文件发送端和文件接受端
 		pair<bool, bool> newSndMsg_newRcvMsg;
 		pair<char, char> fileSnd_fileRcv;
 	public:
