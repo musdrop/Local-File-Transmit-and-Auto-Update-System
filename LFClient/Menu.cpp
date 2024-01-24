@@ -34,6 +34,95 @@ void Menu::Start()
 	}
 }
 
+void Menu::StartSource()
+{
+	system("cls");
+	curm = &sourceMenu;
+
+	cout << "当前无订阅文件..." << endl;
+	ShowMenu();
+	while (true)
+	{
+		bool isExit = false;
+		switch (Judgement())
+		{
+		case 1:
+			if (optionsNum == mainMenu.size() - 1)
+			{
+				optionsNum = 0;
+			}
+			else
+			{
+				optionsNum++;
+			}
+			break;
+
+		case -1:
+			if (optionsNum == 0)
+			{
+				optionsNum = mainMenu.size() - 1;
+			}
+			else
+			{
+				optionsNum--;
+			}
+			break;
+		case 0:
+			if (optionsNum == 0)
+			{
+				//订阅文件
+				cout << "请输入文件路径：";
+				string a;
+				getline(cin, a);
+				if (a == "")
+				{
+					break;
+				}
+				if (flist.AddNewDir(a))
+				{
+					cout << "订阅文件成功" << endl;
+				}
+				else
+				{
+					cout << "订阅文件失败" << endl;
+				}
+				Sleep(1000);
+			}
+			else if (optionsNum == 1)
+			{
+				//删除文件
+				cout << "请输入文件名：";
+				string a;
+				getline(cin, a);
+				if (a == "")
+				{
+					break;
+				}
+				flist.RemoveDir(flist[a]);
+				cout << "已移除" << endl;
+				Sleep(1000);
+			}
+			else if (optionsNum == 2)
+			{
+				isExit = true;
+			}
+			break;
+		case 2:
+			return;
+		default:
+			break;
+		}
+		if (isExit)
+		{
+			break;
+		}
+		system("cls");
+		cout << "已订阅的文件如下：";
+		flist.PrintFileNames();
+		ShowMenu();
+	}
+}
+
 void Menu::StartVisitor()
 {
 	while (true)
@@ -71,7 +160,7 @@ void Menu::StartVisitor()
 			}
 			else if (input == 27)
 			{
-				clientCtrl->ExitVistor();
+				clientCtrl->ExitLogin();
 				break;
 			}
 		}
@@ -80,7 +169,6 @@ void Menu::StartVisitor()
 		{
 			gotListCode = 0;
 			curm = &visitorMenu;
-			optionsNum = 0;
 			system("cls");
 			cout << "可访问的文件有：" << endl;
 			for (int i = 0; i < accessibleFiles.size(); i++)
@@ -218,7 +306,7 @@ void Menu::ControlVisitorMenu(bool& isExit)
 		{
 			isExit = true;
 		}
-		break; // 跳转到选项进入模块
+		break;
 	case 2:
 		return;
 	default:
@@ -315,18 +403,17 @@ void Menu::Logining(int id, Identity idt)
 	//登录成功
 	isLoggedIn = true;
 	this->id = id;
+	optionsNum = 0;
 	if (logcode == 1)
 	{
 		curIdt = FileSource;
-		clientCtrl->RunSource();
 		cout << "登录文件源成功" << endl;
 		Sleep(1000);
-
+		StartSource();
 	}
 	if (logcode == 2)
 	{
 		curIdt = FileVisitor;
-		clientCtrl->RunVisitor();
 		cout << "登录访问端成功" << endl;
 		Sleep(1000);
 		StartVisitor();
@@ -426,7 +513,7 @@ void Menu::UpdataList()
 			}
 			else if (input == 27)
 			{
-				clientCtrl->ExitVistor();
+				clientCtrl->ExitLogin();
 				break;
 			}
 		}
@@ -449,4 +536,5 @@ void Menu::ClearList()
 {
 	accessibleFiles.clear();
 }
+
 

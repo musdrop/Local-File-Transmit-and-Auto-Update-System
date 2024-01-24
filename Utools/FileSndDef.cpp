@@ -11,9 +11,9 @@ namespace jeff
 		}
 		EL("从文件列表中删除" + fileName);
 	}
-	bool FileList::TryOpen(string fileName, bool notNewFile)
+	bool FileList::TryOpen(string fileDir, bool notNewFile)
 	{
-		ifstream file(fileName);
+		ifstream file(fileDir);
 		if (file.good())
 		{
 			file.close();
@@ -25,7 +25,7 @@ namespace jeff
 			file.close();
 			EL("文件预打开失败");
 			if (notNewFile)
-				Kick(fileName);
+				RemoveDir(fileDir);
 			return false;
 		}
 	}
@@ -33,7 +33,7 @@ namespace jeff
 	{
 		return this->allChosenDir.size();
 	}
-	void FileList::AddNewDir(string newDir)
+	bool FileList::AddNewDir(string newDir)
 	{
 		DL("正在处理文件路径");
 		pair<string, string>tempPair;
@@ -48,6 +48,7 @@ namespace jeff
 				tempPair.first = newDir.substr(pos, newDir.size() - 1);
 				DL("文件名称写入成功");
 				this->allChosenDir.push_back(tempPair);
+				return true;
 			}
 			else
 			{
@@ -58,13 +59,20 @@ namespace jeff
 					tempPair.first = newDir.substr(pos, newDir.size() - 1);
 					DL("文件名称写入成功");
 					this->allChosenDir.push_back(tempPair);
+					return true;
 				}
 				else
+				{
 					EL("文件名称解析失败");
+					return false;
+				}
 			}
 		}
 		else
+		{
 			EL("文件路径无效或文件不存在");
+			return false;
+		}
 	}
 	void FileList::RemoveDir(string existDir)
 	{
@@ -92,17 +100,39 @@ namespace jeff
 		return FindDir(fileName);
 	}
 
-
-	FileSnd::FileSnd(string newfileName) :FileSignal(newfileName)
+	vector<string> FileList::GetNamesList()
 	{
-		file.open(newfileName, ios::binary);
+		vector<string> nl;
+		for (int i = 0; i < allChosenDir.size(); i++)
+		{
+			nl.push_back(allChosenDir[i].first);
+		}
+		return nl;
+	}
+
+	void FileList::PrintFileNames()
+	{
+		for (int i = 0; i < allChosenDir.size(); i++)
+		{
+			cout << allChosenDir[i].first << endl;
+		}
+	}
+
+
+	FileSnd::FileSnd(string fileDir)
+	{
+		file.open(fileDir, ios::binary);
 		if (!file.good())
 		{
 			file.close();
 			EL("文件不存在或文件路径无效");
 		}
 	}
-	void FileSnd::Prepare()
+	void FileSnd::SetSegmentSize(int size)
+	{
+		segmentSize = size;
+	}
+	bool FileSnd::Prepare()
 	{
 		DL("正在准备文件发送");
 		if (fileInfor)
@@ -113,8 +143,16 @@ namespace jeff
 		file.read(fileInfor, SEGMENT);
 		//获取最近一次读写操作的实际读取字节数
 		int n = file.gcount();
-		segmentSize = n;
-		this->fileByteSize += segmentSize;
+		this->fileByteSize += n;
+		if (n < segmentSize)
+		{
+			lastsegmentSize = n;
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	void FileSnd::Close()
 	{

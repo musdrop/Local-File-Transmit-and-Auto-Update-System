@@ -19,9 +19,9 @@ namespace jeff
 		file.write(fileInfor, segmentLen);
 		DL("接收到文件并进行写入");
 	}
-	bool FileRcv::End(TransmitSignal inforReceived)
+	bool FileRcv::End(int lastSize)
 	{
-		if (this->fileByteSize == inforReceived.fileByteSize)
+		if (this->fileByteSize == lastSize)
 		{
 			DL("文件接受成功");
 			file.close();

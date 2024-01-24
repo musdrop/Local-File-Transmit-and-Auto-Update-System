@@ -10,7 +10,7 @@ namespace jeff
 	public:
 		FileRcv(TransmitSignal);
 		void Receive(char* fileInfor, int segmentLen = -1);
-		bool End(TransmitSignal inforReceived);
+		bool End(int lastSize);
 		~FileRcv();
 	};
 }

@@ -9,27 +9,32 @@ namespace jeff
 		vector<pair<string, string>> allChosenDir;//fileName+fileDir
 		//根据文件名移除
 		void Kick(string fileName);
-		//预打开
-		bool TryOpen(string fileName, bool notNewFile = true);
 	public:
+		//预打开
+		bool TryOpen(string fileDir, bool notNewFile = true);
 		//获取文件列表长度
 		int TotalSize();
 		//新增文件
-		void AddNewDir(string newDir);
+		bool AddNewDir(string newDir);
 		//删除文件
 		void RemoveDir(string existDir);
 		//根据文件名查找文件路径
 		string FindDir(string fileName);
 		string operator[](string);
+		//获取名单列表
+		vector<string> GetNamesList();
 		void Save();
+		void PrintFileNames();
 	};
 
-	class FileSnd:public FileSignal
+	class FileSnd :public FileSignal
 	{
 		ifstream file;
 	public:
+		int lastsegmentSize;
 		FileSnd(string);
-		void Prepare();
+		void SetSegmentSize(int size);
+		bool Prepare();
 		void Close();
 		~FileSnd();
 	};

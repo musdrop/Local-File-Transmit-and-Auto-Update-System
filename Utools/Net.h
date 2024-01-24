@@ -5,8 +5,12 @@
 #include "Logger.h"
 using namespace std;
 //日志操作宏定义
-#define EL Logger::instance.Error_Log
+#ifndef DL
 #define DL Logger::instance.Debug_Log
+#endif
+#ifndef EL
+#define EL Logger::instance.Error_Log
+#endif
 //链接ws2库
 #pragma comment(lib,"ws2_32.lib")
 //Net命名空间
@@ -44,7 +48,7 @@ namespace Net
 		void Close();//关闭套接字
 
 	public:
-		Address* connectedAddr;//同该Socket通信的对方的地址
+		Address* connectedAddr = NULL;//同该Socket通信的对方的地址
 	protected:
 		SOCKET sockfd;//套接字标识符
 	};

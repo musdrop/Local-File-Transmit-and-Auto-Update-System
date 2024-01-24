@@ -9,31 +9,31 @@
 #include <vector>
 namespace jeff
 {
-using namespace std;
-using onebyte = char;
-#define BYTELEN 8//×Ö½ÚÎ»³¤
+	using namespace std;
+	using onebyte = char;
+#define BYTELEN 8//ï¿½Ö½ï¿½Î»ï¿½ï¿½
 #define CHAR2INT 48
-//±äÁ¿Ãû³Æºê
-//intÀàÐÍÃû³Æ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æºï¿½
+	//intï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define INT4NAME typeid(int).name()
-//shortÀàÐÍÃû³Æ
+//shortï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define INT2NAME typeid(short int).name()
-//byteÀàÐÍÃû³Æ
+//byteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define INT1NAME typeid(onebyte).name()
-//longÀàÐÍÃû³Æ
+//longï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define INT8NAME typeid(long long).name()
-//×Ö·ûÀàÐÍÃû³Æ
+//ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define CHARNAME typeid(char).name()
-//¸¡µãÀàÐÍÃû³Æ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define FLOATNAME typeid(float).name()
-//Ë«¾«¶È¸¡µãÀàÐÍÃû³Æ
+//Ë«ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define DOUBLENAME typeid(double).name()
-//×Ö·û´®ÀàÐÍÃû³Æ
+//ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define STRINGNAME typeid(std::string).name()
-//²¼¶ûÀàÐÍÃû³Æ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define BOOLNAME typeid(bool).name()
 
-//×ª»»ÀàÐÍºê
+//×ªï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½
 
 #define ARLEN (x)  (sizeof(x))
 #define DYNAMIC template<class TYPE>
@@ -70,14 +70,14 @@ using onebyte = char;
 //template pointer
 #define TP (TYPE* )
 //Calculation
-//ÔÚÁ½¸ö¸ø¶¨µÄÊý×é¼ä¸³Öµ£¨Ä¬ÈÏÊ¹ÓÃÕß¸ø³öÕæÊµµÄ³¤¶È£©
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ä¸³Öµï¿½ï¿½Ä¬ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ä³ï¿½ï¿½È£ï¿½
 #define ARRAYASSIGN(x,y,size)for(int n = 0;n<size;++n)x[n]=y[n]
-//ÅÐ¶ÏÖµÊÇ·ñÎªÆæÊý
+//ï¿½Ð¶ï¿½Öµï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½
 #define ISODD(x) x%2!=0
-//ÅÐ¶ÏÖµÊÇ·ñÎªÅ¼Êý
+//ï¿½Ð¶ï¿½Öµï¿½Ç·ï¿½ÎªÅ¼ï¿½ï¿½
 #define ISEVEN (x) x%2==0
 
-//jeff algorithm Ëã·¨Àà
+//jeff algorithm ï¿½ã·¨ï¿½ï¿½
 	static class JA
 	{
 	public:
@@ -86,15 +86,15 @@ using onebyte = char;
 			return strcmp(typeName, INT4NAME)
 				|| strcmp(typeName, INT2NAME)
 				|| strcmp(typeName, FLOATNAME)
-				|| strcmp(typeName,CHARNAME)
+				|| strcmp(typeName, CHARNAME)
 				|| strcmp(typeName, DOUBLENAME)
 				|| strcmp(typeName, INT8NAME)
 				|| strcmp(typeName, BOOLNAME)
 				|| strcmp(typeName, STRINGNAME);
 		}
-		//Çå¿ÕÈÎÒâ±äÁ¿¡¢Êý×é£¬lenÎª¸Ã±äÁ¿¡¢Êý×éµÄ×Ö½Ú³¤¶È
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬lenÎªï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ú³ï¿½ï¿½ï¿½
 		template<class TYPE>
-		TYPE* Clear(TYPE* Array,int Len = 1)
+		TYPE* Clear(TYPE* Array, int Len = 1)
 		{
 			if (Len > 0)
 			{
@@ -103,21 +103,21 @@ using onebyte = char;
 					*Array = 0;
 					return Array;
 				}
-				int byteSize = sizeof(TYPE);//»ñÈ¡×Ö½Ú³¤¶È
-				void* temp = Array;//Ïû³ýÊý×éµÄÀàÐÍ
-				if (byteSize % 4 == 0)//°´×Ö½ÚÊý·ÖÀà£¬Èç¹ûÒÔ4Îª¼ä¸ô¾ÍÊ¹ÓÃintÖ¸Õë³õÊ¼»¯
+				int byteSize = sizeof(TYPE);//ï¿½ï¿½È¡ï¿½Ö½Ú³ï¿½ï¿½ï¿½
+				void* temp = Array;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				if (byteSize % 4 == 0)//ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½ï¿½ï¿½4Îªï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½intÖ¸ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 				{
 					int intLen = byteSize / 4;
 					int* clear = I4P temp;
-					for (int m = 0; m < Len; m++)//±éÀúÕû¸öÊý×é
-						for (int n = 0; n < intLen; ++clear, ++n)//³õÊ¼»¯µ¥¸öÔªËØ
+					for (int m = 0; m < Len; m++)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						for (int n = 0; n < intLen; ++clear, ++n)//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 							*clear = 0;
 				}
 				else
 				{
 					char* clear = CP temp;
-					for (int m = 0; m < Len; m++)//±éÀúÕû¸öÊý×é
-						for (int n = 0; n != byteSize; ++clear, ++n)//³õÊ¼»¯µ¥¸öÔªËØ
+					for (int m = 0; m < Len; m++)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						for (int n = 0; n != byteSize; ++clear, ++n)//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 							*clear = 0;
 				}
 				return Array;
@@ -125,58 +125,58 @@ using onebyte = char;
 			else
 				return NULL;
 		}
-		//±È½ÏÈÎÒâ±äÁ¿¡¢Êý×é£¬lenÎª¸Ã±äÁ¿¡¢Êý×éµÄ×Ö½Ú³¤¶È
+		//ï¿½È½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬lenÎªï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ú³ï¿½ï¿½ï¿½
 		template <class TYPE>
-		bool Compare(TYPE* valA, TYPE* valB,int Len = 1)
+		bool Compare(TYPE* valA, TYPE* valB, int Len = 1)
 		{
-			if (isCommonType(typeid(TYPE).name())&&Len == 1)
+			if (isCommonType(typeid(TYPE).name()) && Len == 1)
 			{
 				return valA == valB;
 			}
-			void* anyA = valA, * anyB = valB;//Ïû³ýÀàÐÍ
-			int size = sizeof(TYPE);//»ñÈ¡×Ö½ÚÊý
+			void* anyA = valA, * anyB = valB;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			int size = sizeof(TYPE);//ï¿½ï¿½È¡ï¿½Ö½ï¿½ï¿½ï¿½
 			bool result = true;
-			if (size % 4 == 0)//¸ù¾Ý×Ö½ÚÊý½øÐÐ·ÖÀà
+			if (size % 4 == 0)//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½
 			{
 				int* tempA = I4P anyA, * tempB = I4P anyB;
-				for (int m = 0; m != Len; m++)//±éÀúÕû¸öÁÐ±í
+				for (int m = 0; m != Len; m++)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 				{
 					for (int n = 0; n != size / 4; tempA++, tempB++, n++)
-						result = result && (*tempA == *tempB);//±È½ÏÃ¿¸öÔªËØ
+						result = result && (*tempA == *tempB);//ï¿½È½ï¿½Ã¿ï¿½ï¿½Ôªï¿½ï¿½
 				}
 			}
 			else
 			{
 				char* tempA = CP anyA, * tempB = CP anyB;
-				for (int m = 0; m != Len; m++)//±éÀúÕû¸öÁÐ±í
-					for (int n = 0; n != size; tempA++, tempB++, n++)//±éÀúÕû¸öÁÐ±í
+				for (int m = 0; m != Len; m++)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
+					for (int n = 0; n != size; tempA++, tempB++, n++)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 						result = result && (*tempA == *tempB);
 			}
 			return result;
 		}
-		//¸³ÖµÈÎÒâ±äÁ¿£¬½«B¸³Öµ¸øA
+		//ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Bï¿½ï¿½Öµï¿½ï¿½A
 		DYNAMIC
-		TYPE Assign(TYPE& A,TYPE& B)
+			TYPE Assign(TYPE& A, TYPE& B)
 		{
-			if(isCommonType(typeid(TYPE).name()))
-				return A=B;
+			if (isCommonType(typeid(TYPE).name()))
+				return A = B;
 			void* valA = &A, * valB = &B;
-			if (sizeof(TYPE)%4 == 0)//¸ù¾Ý×Ö½ÚÊý·ÖÀà
+			if (sizeof(TYPE) % 4 == 0)//ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
-				int* valIA = I4P valA,*valIB = I4P valB;//Ïû³ýÀàÐÍ
-				for(int n = 0;n<sizeof(TYPE)/4;++n)//±éÀúÃ¿¸öÔªËØ£¨ÒÔ4Îª·Ö½çµ¥Î»£©
+				int* valIA = I4P valA, * valIB = I4P valB;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				for (int n = 0; n < sizeof(TYPE) / 4; ++n)//ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½4Îªï¿½Ö½çµ¥Î»ï¿½ï¿½
 					valIA[n] = valIB[n];
 				return A;
 			}
 			else
 			{
 				char* valIA = CP valA, * valIB = CP valB;
-				for (int n = 0; n < sizeof(TYPE); ++n)//±éÀúÃ¿¸öÔªËØ£¨ÒÔ1Îª·Ö½çµ¥Î»£©
+				for (int n = 0; n < sizeof(TYPE); ++n)//ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½1Îªï¿½Ö½çµ¥Î»ï¿½ï¿½
 					valIA[n] = valIB[n];
 				return A;
 			}
 		}
-		//¸ø³öintµÄÎ»Êý
+		//ï¿½ï¿½ï¿½ï¿½intï¿½ï¿½Î»ï¿½ï¿½
 		int digits(int newData)
 		{
 			int result = 0;
@@ -184,7 +184,7 @@ using onebyte = char;
 				newData /= 10;
 			return result;
 		}
-		//¸ø³ölongµÄÎ»Êý
+		//ï¿½ï¿½ï¿½ï¿½longï¿½ï¿½Î»ï¿½ï¿½
 		int longDigits(long long newData)
 		{
 			int result = 0;
@@ -192,7 +192,7 @@ using onebyte = char;
 				newData /= 10;
 			return result;
 		}
-		//¼ÆËãÒ»¸ölongµÄ¶þ½øÖÆÎ»Êý
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½longï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 		int binaryL2DecimalL(const int byteSize)
 		{
 			int allByteLen = byteSize * BYTELEN;
@@ -203,7 +203,7 @@ using onebyte = char;
 				decimalSize += 1;
 			return decimalSize;
 		}
-		//·­×ªÒ»¸östring
+		//ï¿½ï¿½×ªÒ»ï¿½ï¿½string
 		void strReverse(char* existStr)
 		{
 			int size = strlen(existStr) - 1;
@@ -215,7 +215,7 @@ using onebyte = char;
 				existStr[size - n] = Temp;
 			}
 		}
-		//ÅÐ¶ÏÒ»¸öcharÊý×éÊÇ²»ÊÇ¶¼ÊÇÊý×Ö
+		//ï¿½Ð¶ï¿½Ò»ï¿½ï¿½charï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		bool isAllNumber(const char* existStr)
 		{
 			if (existStr == NULL)
@@ -235,27 +235,27 @@ using onebyte = char;
 			return true;
 		}
 		DYNAMIC
-		int selection(TYPE* Array, int Len,TYPE goal)
+			int selection(TYPE* Array, int Len, TYPE goal)
 		{
 			for (int n = 0; n < Len; ++n)
 			{
-				if(Array[n] == goal)
+				if (Array[n] == goal)
 					return n;
 			}
 			return -1;
 		}
 		int maxSelection(int* Array, int Len)
 		{
-			int Max = 0,Endl = -1;
+			int Max = 0, Endl = -1;
 			for (int n = 0; n < Len; ++n)
 			{
 				if (Array[n] > Max)
-					Max = Array[n],Endl = n;
+					Max = Array[n], Endl = n;
 			}
 			return Endl;
 		}
 		DYNAMIC
-		TYPE* merge(TYPE* Array1, int Size1, TYPE* Array2, int Size2)
+			TYPE* merge(TYPE* Array1, int Size1, TYPE* Array2, int Size2)
 		{
 			const int resultSize = Size1 + Size2;
 			TYPE* result = new TYPE[resultSize];
@@ -270,9 +270,9 @@ using onebyte = char;
 		}
 		//merge 2 into 1
 		DYNAMIC
-		std::vector<TYPE >merge(std::vector<TYPE>arr1, std::vector<TYPE>arr2,bool forSort = false)
+			std::vector<TYPE >merge(std::vector<TYPE>arr1, std::vector<TYPE>arr2, bool forSort = false)
 		{
-			for (int n = 0;n< arr2.size(); n++)
+			for (int n = 0; n < arr2.size(); n++)
 			{
 				arr1.push_back(arr2[n]);
 			}
@@ -280,26 +280,26 @@ using onebyte = char;
 		}
 	};
 	static JA UseJA;
-	//¸øÓèÒ»¸ö¿ÕµÄ¿Õ¼ä£¬ÓÃÒÔ³õÊ¼»¯±äÁ¿
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ÕµÄ¿Õ¼ä£¬ï¿½ï¿½ï¿½Ô³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	class EMPTY
 	{
 		void* Space;
 	public:
-		//Ä¬ÈÏ³õÊ¼»¯
+		//Ä¬ï¿½Ï³ï¿½Ê¼ï¿½ï¿½
 		EMPTY() :Space(NULL)
 		{}
-		//¸ø¶¨¿Õ¼ä´óÐ¡µÄ³õÊ¼»¯
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½Ð¡ï¿½Ä³ï¿½Ê¼ï¿½ï¿½
 		EMPTY(int newSize)
 		{
 			Space = new char[newSize];
-			UseJA.Clear(CP Space,newSize);
+			UseJA.Clear(CP Space, newSize);
 		}
-		//µ¼³ö¿Õ¼ä
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½
 		const void* const Export()
 		{
 			return Space;
 		}
-		//·ÖÅäÒ»¸ö¿ÕµÄ¿Õ¼ä,µÚ¶þ¸ö²ÎÊýÎªtrueÊ±±íÊ¾¿Õ¼ä»á±»»ØÊÕ
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ÕµÄ¿Õ¼ï¿½,ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªtrueÊ±ï¿½ï¿½Ê¾ï¿½Õ¼ï¿½á±»ï¿½ï¿½ï¿½ï¿½
 		void* Allocate(int size, bool reclaim = true)
 		{
 			if (reclaim)
@@ -318,19 +318,19 @@ using onebyte = char;
 			}
 
 		}
-		//·ÖÅäÒ»¸ö¿Õ¼ä£¬²¢·µ»Øµ±Ç°¶ÔÏóµÄÒýÓÃ
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Õ¼ä£¬ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		EMPTY& operator() (int newSize)
 		{
-			if (Space == NULL)//µ±SpaceÎª¿ÕÊ±´´½¨ÐÂ¿Õ¼ä
+			if (Space == NULL)//ï¿½ï¿½SpaceÎªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Â¿Õ¼ï¿½
 			{
 				Space = new char[newSize];
 				UseJA.Clear(CP Space, newSize);
 			}
-			else if (Space != NULL && newSize > _msize(Space))//µ±Space²»Îª¿Õµ«¿Õ¼äÒªÇó´óÓÚµ±Ç°¿Õ¼ä´óÐ¡Ê±
+			else if (Space != NULL && newSize > _msize(Space))//ï¿½ï¿½Spaceï¿½ï¿½Îªï¿½Õµï¿½ï¿½Õ¼ï¿½Òªï¿½ï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½Õ¼ï¿½ï¿½Ð¡Ê±
 			{
 				delete[] Space;
 			}
-			else//µ±´æÔÚ¿Õ¼ä´óÓÚ¸ø¶¨´óÐ¡Ê±
+			else//ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿Õ¼ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡Ê±
 			{
 				return *this;
 			}
@@ -338,7 +338,7 @@ using onebyte = char;
 			UseJA.Clear(CP Space, newSize);
 			return *this;
 		}
-		~EMPTY()//Îö¹¹º¯Êý
+		~EMPTY()//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		{
 			delete[] Space;
 		}
@@ -375,15 +375,15 @@ using onebyte = char;
 			}
 		}
 		DYNAMIC
-		static std::vector<TYPE>* mergingSorting(std::vector<TYPE> waitingArray)
+			static std::vector<TYPE>* mergingSorting(std::vector<TYPE> waitingArray)
 		{
-			for (int n = 0;n<waitingArray.size(); ++n)
+			for (int n = 0; n < waitingArray.size(); ++n)
 			{
-				
+
 			}
 		}
 	};
 	static JASorting UseJASort;
-	
+
 }
 #endif

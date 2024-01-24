@@ -1,5 +1,4 @@
 #include "FileCtrl.h"
-#include"FileCtrl.h"
 #define FS  FileSignal
 namespace jeff
 {

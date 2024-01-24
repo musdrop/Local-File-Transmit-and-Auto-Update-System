@@ -1,8 +1,12 @@
 #pragma once
 #ifndef  FILECTRL_H
 #define FILECTRL_H
-#define DL(x) Logger::instance.Debug_Log(x)
-#define EL(x) Logger::instance.Error_Log(x)
+#ifndef DL
+#define DL Logger::instance.Debug_Log
+#endif
+#ifndef EL
+#define EL Logger::instance.Error_Log
+#endif
 #include"User.h"
 #include"Logger.h"
 #include <string>
@@ -70,18 +74,19 @@ namespace jeff
 		sendWholeFile,//文件发送方发送完时使用：携带文件总字节数，最后一个包的有效字节数
 
 		fileNotExist,//用于文件源响应文件访问请求
-		fileSourceNotExist
+		listIsEmpty,//可访问文件列表为空，响应列表更新请求
+		fileSourceNotExist//用于服务器响应文件访问请求，应对刚开始时两端都已登录，但后来文件源下线的情况
 	};
 	class FileSignal
 	{
 	public:
 		unsigned int segmentSize;//实际段长度
+		unsigned int fileByteSize;//总文件长度
 	protected:
+		char* fileInfor;//文件信息
 		char inf;//控制信息
 		string fileName;//文件名称
-		unsigned int fileByteSize;//总文件长度
 
-		char* fileInfor;//文件信息
 	public:
 		FileSignal();
 		FileSignal(string newfileName);

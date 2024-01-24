@@ -1,18 +1,8 @@
-Sat Jan 20 15:52:07 2024
+Thu Jan 25 00:16:26 2024
 |DEBUG:---程序开始运行---
-Sat Jan 20 15:52:15 2024
+Thu Jan 25 00:16:29 2024
 |ERROR:创建套接字失败！失败信息：No error
-Sat Jan 20 15:52:15 2024
+Thu Jan 25 00:16:29 2024
 |ERROR:套接字连接失败！失败信息：No error
-Sat Jan 20 15:52:25 2024
-|ERROR:创建套接字失败！失败信息：No error
-Sat Jan 20 15:52:25 2024
-|ERROR:套接字连接失败！失败信息：No error
-Sat Jan 20 15:52:30 2024
-|ERROR:创建套接字失败！失败信息：No error
-Sat Jan 20 15:52:30 2024
-|ERROR:套接字连接失败！失败信息：No error
-Sat Jan 20 15:52:34 2024
-|ERROR:创建套接字失败！失败信息：No error
-Sat Jan 20 15:52:34 2024
-|ERROR:套接字连接失败！失败信息：No error
+Thu Jan 25 00:16:36 2024
+|DEBUG:---程序停止运行---

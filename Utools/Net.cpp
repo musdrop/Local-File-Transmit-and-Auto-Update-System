@@ -33,6 +33,7 @@ Net::Socket::Socket()
 Net::Socket::Socket(SOCKET s)
 {
 	sockfd = s;
+
 }
 
 

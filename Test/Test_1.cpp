@@ -1,23 +1,35 @@
+#pragma once
+#include "Utools\\Net.h"
+#include "Utools\\fileSnd.h"
+#include "Utools\\fileRcv.h"
+#include <vector>
+#include <queue>
+#include <thread>
+#include <chrono>
 #include <iostream>
-#include <fstream>
-#include "Test_1.h"
+#include <string>
+#include <conio.h>
+using namespace Net;
+using namespace jeff;
 using namespace std;
-enum me
+class Test
 {
-	me0,
-	me1,
+public:
+	void Print(int a, int b)
+	{
+		while (true)
+		{
+			cout << a + b;
+		}
+	}
+	void start()
+	{
+		thread s(&Test::Print, this, 3, 5);
+		s.join();
+	}
 };
 int main()
 {
-	char* b = new char[10] {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
-	string B = b;
-	cout << B.size() << '\n' << (B == "");
-	//ifstream fil("test.txt");
-	//char a[10]{ 'A','A','A','A','A','A','A','A','A','A' };
-	//fil.read(a, 10);
-	//cout << fil.gcount() << '\n';
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	cout << a[i] << ' ';
-	//}
+	Test r;
+	r.start();
 }
