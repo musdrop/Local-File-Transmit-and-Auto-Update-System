@@ -104,6 +104,8 @@ void Menu::StartSource()
 			}
 			else if (optionsNum == 2)
 			{
+				//客户端退出登录
+				clientCtrl->ExitLogin();
 				isExit = true;
 			}
 			break;
@@ -131,7 +133,7 @@ void Menu::StartVisitor()
 		cout << "正在尝试获取可访问文件列表..." << endl;
 		//等待
 		while (!gotListCode) {}
-		if (gotListCode == 1)
+		if (gotListCode == 3)
 		{
 			cout << "无文件源" << endl;
 		}
@@ -140,7 +142,7 @@ void Menu::StartVisitor()
 			cout << "暂无可访问的文件" << endl;
 		}
 		//重试
-		if (gotListCode < 3)
+		if (gotListCode == -1 || gotListCode > 1)
 		{
 			gotListCode = 0;
 			cout << "回车可再次尝试获取可访问文件列表...";
@@ -165,7 +167,7 @@ void Menu::StartVisitor()
 			}
 		}
 		//成功获得列表
-		if (gotListCode == 3)
+		if (gotListCode == 1)
 		{
 			gotListCode = 0;
 			curm = &visitorMenu;
@@ -304,6 +306,8 @@ void Menu::ControlVisitorMenu(bool& isExit)
 		}
 		else if (optionsNum == 2)
 		{
+			//客户端退出登录
+			clientCtrl->ExitLogin();
 			isExit = true;
 		}
 		break;
@@ -450,7 +454,7 @@ void Menu::FileRequest()
 		cout << "正在获取文件..." << endl;
 		//等待文件
 		while (!gotFileCode) {}
-		if (gotFileCode == 1)
+		if (gotFileCode == 3)
 		{
 			cout << "无文件源" << endl;
 		}
@@ -458,13 +462,13 @@ void Menu::FileRequest()
 		{
 			cout << "未找到该文件" << endl;
 		}
-		if (gotFileCode < 3)
+		if (gotFileCode == -1 || gotFileCode > 1)
 		{
 			cout << "按任意键继续...";
 			_getch();
 			break;
 		}
-		if (gotFileCode == 3)
+		if (gotFileCode == 1)
 		{
 			cout << "成功获取文件" << input << endl;
 			cout << "按任意键继续...";
@@ -484,7 +488,7 @@ void Menu::UpdataList()
 		cout << "正在尝试获取可访问文件列表..." << endl;
 		//等待
 		while (!gotListCode) {}
-		if (gotListCode == 1)
+		if (gotListCode == 3)
 		{
 			cout << "无文件源" << endl;
 		}
@@ -493,7 +497,7 @@ void Menu::UpdataList()
 			cout << "暂无可访问的文件" << endl;
 		}
 		//重试
-		if (gotListCode < 3)
+		if (gotListCode == -1 || gotListCode > 1)
 		{
 			gotListCode = 0;
 			cout << "回车可再次尝试获取可访问文件列表...";
@@ -518,7 +522,7 @@ void Menu::UpdataList()
 			}
 		}
 		//成功获得列表
-		if (gotListCode == 3)
+		if (gotListCode == 1)
 		{
 			cout << "成功更新列表" << endl;
 			Sleep(1000);
@@ -536,5 +540,3 @@ void Menu::ClearList()
 {
 	accessibleFiles.clear();
 }
-
-

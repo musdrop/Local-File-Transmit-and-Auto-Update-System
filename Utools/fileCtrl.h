@@ -80,7 +80,7 @@ namespace jeff
 	class FileSignal
 	{
 	public:
-		unsigned int segmentSize;//实际段长度
+		unsigned int segmentSize;//段长度
 		unsigned int fileByteSize;//总文件长度
 	protected:
 		char* fileInfor;//文件信息

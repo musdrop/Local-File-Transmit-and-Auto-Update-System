@@ -8,7 +8,6 @@ ClientCtrl::ClientCtrl()
 ClientCtrl::~ClientCtrl()
 {
 	delete commandSocket;
-	delete fileSocket;
 	delete commandsListen;
 	delete commandsHandle;
 }
@@ -75,8 +74,6 @@ void ClientCtrl::ExitLogin()
 
 	commandSocket->Close();
 	commandSocket = NULL;
-	fileSocket->Close();
-	fileSocket = NULL;
 
 	commandsListen = NULL;
 	commandsHandle = NULL;
@@ -86,7 +83,7 @@ void ClientCtrl::UpdataListRequest()
 {
 	TransmitSignal ts;
 	ts.signal = updataListRequest;
-	commandSocket->Send((const char*)&ts, sizeof(ts));
+	SendCommand(ts);
 }
 
 void ClientCtrl::SendFileRequest(string filename)
@@ -97,7 +94,7 @@ void ClientCtrl::SendFileRequest(string filename)
 	{
 		ts.fileName[i] = filename[i];
 	}
-	commandSocket->Send((const char*)&ts, sizeof(ts));
+	SendCommand(ts);
 }
 
 void ClientCtrl::SendLoginRequest(int id, Identity idt)
@@ -121,7 +118,7 @@ void ClientCtrl::SendLoginRequest(int id, Identity idt)
 
 void ClientCtrl::SendCommand(TransmitSignal ts)
 {
-	commandSocket->Send((const char*)&ts, sizeof(ts));
+	SendCommand(ts);
 }
 
 void ClientCtrl::CommandsListen()
@@ -210,8 +207,8 @@ void ClientCtrl::CommandsHandle()
 			}
 			else if (ts.signal == fileSourceNotExist)
 			{
-				clientMenu->gotListCode = 1;
-				clientMenu->gotFileCode = 1;
+				clientMenu->gotListCode = 3;
+				clientMenu->gotFileCode = 3;
 			}
 			//文件源会收到的消息
 			else if (ts.signal == readyRecieve)
@@ -247,7 +244,7 @@ void ClientCtrl::CommandsHandle()
 				if (clientMenu->flist.TotalSize() <= 0)
 				{
 					rets.signal = listIsEmpty;
-					commandSocket->Send((const char*)&rets, sizeof(rets));
+					SendCommand(rets);
 					continue;
 				}
 				//列表不为空准备发长消息
@@ -255,7 +252,7 @@ void ClientCtrl::CommandsHandle()
 				rets.segmentSize = FListMesSegSize;
 				waitforSendkind = 0;//类型为文件列表
 				rets.SetContent(1, 1, (char*)&waitforSendkind);
-				commandSocket->Send((const char*)&rets, sizeof(rets));
+				SendCommand(rets);
 				isFile = false;
 			}
 		}
@@ -277,7 +274,7 @@ void ClientCtrl::FileReply(bool isFound, string filename)
 	{
 		ts.signal = fileNotExist;
 	}
-	commandSocket->Send((const char*)&ts, sizeof(ts));
+	SendCommand(ts);
 
 }
 
@@ -300,11 +297,11 @@ void ClientCtrl::ToFileNameInList(char* buff, int length)
 
 void ClientCtrl::LongMessageRecv(int port, unsigned int segmentSize, char kind)
 {
+	Socket* fileSocket = new Socket();
 	//默认是文件列表
 	if (kind == 0)
 	{
 		//连接服务器文件端口
-		fileSocket = new Socket();
 		if (!fileSocket->Connect(ServerIp, port))
 		{
 			//连接失败
@@ -315,7 +312,7 @@ void ClientCtrl::LongMessageRecv(int port, unsigned int segmentSize, char kind)
 		isLast = false;
 		TransmitSignal ts;
 		ts.signal = readyRecieve;
-		commandSocket->Send((const char*)&ts, sizeof(ts));
+		SendCommand(ts);
 		//清空文件列表
 		clientMenu->ClearList();
 		//开始接受
@@ -336,14 +333,14 @@ void ClientCtrl::LongMessageRecv(int port, unsigned int segmentSize, char kind)
 		}
 		while (!isLast) {}
 		ToFileNameInList(namesbuff, lastSegmentSize);
-		clientMenu->gotListCode = 3;
+		clientMenu->gotListCode = 1;
 	}
 }
 
 void ClientCtrl::FileRecv(int port, FileRcv& fr)
 {
 	//连接服务器文件端口
-	fileSocket = new Socket();
+	Socket* fileSocket = new Socket();
 	if (!fileSocket->Connect(ServerIp, port))
 	{
 		//连接失败
@@ -354,7 +351,7 @@ void ClientCtrl::FileRecv(int port, FileRcv& fr)
 	isLast = false;
 	TransmitSignal ts;
 	ts.signal = readyRecieve;
-	commandSocket->Send((const char*)&ts, sizeof(ts));
+	SendCommand(ts);
 	//开始接受
 	char* filebuff = new char[fr.segmentSize] {};
 	char* tempbuff = new char[fr.segmentSize] {};
@@ -375,14 +372,14 @@ void ClientCtrl::FileRecv(int port, FileRcv& fr)
 	while (!isLast) {}
 	fr.Receive(filebuff, lastSegmentSize);
 	fr.End(lastSegmentSize);
-	clientMenu->gotFileCode = 3;
+	clientMenu->gotFileCode = 1;
 }
 
 void ClientCtrl::FileSend(int port, string fileDir)
 {
 	FileSnd fs(fileDir);
 	fs.SetSegmentSize(SEGMENT);
-	fileSocket = new Socket();
+	Socket* fileSocket = new Socket();
 	if (!fileSocket->Connect(ServerIp, port))
 	{
 		return;
@@ -401,12 +398,12 @@ void ClientCtrl::FileSend(int port, string fileDir)
 	ts.signal = sendWholeFile;
 	ts.segmentSize = fs.lastsegmentSize;
 	ts.fileByteSize = fs.fileByteSize;
-	commandSocket->Send((const char*)&ts, sizeof(ts));
+	SendCommand(ts);
 }
 
 void ClientCtrl::LongMessageSend(int port, char kind)
 {
-	fileSocket = new Socket();
+	Socket* fileSocket = new Socket();
 	if (!fileSocket->Connect(ServerIp, port))
 	{
 		return;
