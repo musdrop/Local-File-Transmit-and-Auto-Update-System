@@ -13,15 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\通用工具">
+      <UniqueIdentifier>{b309518b-07bd-4f04-94d8-cb0a410aaa96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\通用工具">
+      <UniqueIdentifier>{127da73a-1aca-42ac-acbc-9dbe2215144c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Test_1.cpp">
+    <ClCompile Include="ServerTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\Logger.cpp">
+      <Filter>源文件\通用工具</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\Net.cpp">
+      <Filter>源文件\通用工具</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utools\FileCtrlDef.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Test_1.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\Utools\Logger.h">
+      <Filter>头文件\通用工具</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utools\Net.h">
+      <Filter>头文件\通用工具</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

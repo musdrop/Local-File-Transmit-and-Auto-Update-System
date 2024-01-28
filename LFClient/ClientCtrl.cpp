@@ -32,12 +32,16 @@ int ClientCtrl::Login(int id, Identity idt)
 	//建立指令监听线程
 	isRunning = true;
 	commandsListen = new thread(&ClientCtrl::CommandsListen, this);
+	DL("已建立指令监听线程");
 	//建立指令处理线程
 	commandsHandle = new thread(&ClientCtrl::CommandsHandle, this);
+	DL("已建立指令处理线程");
 	//等待...
 	logInCode = 0;
+	DL("等待登录码更新中");
 	while (!logInCode) {}
 	//拿到登录响应
+	DL("成功获取登录码");
 	//登录成功
 	if (logInCode == 1)//文件源
 	{
@@ -118,13 +122,15 @@ void ClientCtrl::SendLoginRequest(int id, Identity idt)
 
 void ClientCtrl::SendCommand(TransmitSignal ts)
 {
-	SendCommand(ts);
+	commandSocket->Send((const char*)&ts, sizeof(ts));
 }
 
 void ClientCtrl::CommandsListen()
 {
+	int i = 1;
 	while (isRunning)
 	{
+		DL("正在等待第" + to_string(i) + "条指令");
 		TransmitSignal ts;
 		int recvCode = commandSocket->Recv((char*)&ts, sizeof(ts));
 		if (recvCode <= 0)
@@ -132,30 +138,37 @@ void ClientCtrl::CommandsListen()
 			isLoggedIn = false;
 			//断开连接
 			isRunning = false;
+			DL("指令连接已断开");
 			break;
 		}
+		DL("成功接受第" + to_string(i) + "条指令");
 		commandsQue.push(ts);
+		i++;
 	}
 }
 
 void ClientCtrl::CommandsHandle()
 {
+	int i = 1;
 	while (isRunning)
 	{
 		if (!commandsQue.empty())
 		{
+			DL("正在处理第" + to_string(i) + "条指令");
+			i++;
 			TransmitSignal ts = commandsQue.front();
 			commandsQue.pop();
 			//共有消息
 			if (ts.signal == loginSuccess)
 			{
+				DL("收到登录成功响应");
 				char kind;
 				ts.GetContent(1, 1, &kind);
-				if (kind == 0)
+				if (kind == 1)
 				{
 					logInCode = 1;
 				}
-				else if (kind == 1)
+				else if (kind == 2)
 				{
 					logInCode = 2;
 				}
@@ -164,15 +177,15 @@ void ClientCtrl::CommandsHandle()
 			{
 				char reason;
 				ts.GetContent(1, 1, &reason);
-				if (reason == 0)
+				if (reason == 3)
 				{
 					logInCode = 3;
 				}
-				else if (reason == 1)
+				else if (reason == 4)
 				{
 					logInCode = 4;
 				}
-				else if (reason == 2)
+				else if (reason == 5)
 				{
 					logInCode = 5;
 				}
@@ -209,6 +222,10 @@ void ClientCtrl::CommandsHandle()
 			{
 				clientMenu->gotListCode = 3;
 				clientMenu->gotFileCode = 3;
+			}
+			else if (ts.signal == listIsEmpty)
+			{
+				clientMenu->gotListCode = 2;
 			}
 			//文件源会收到的消息
 			else if (ts.signal == readyRecieve)
@@ -254,6 +271,10 @@ void ClientCtrl::CommandsHandle()
 				rets.SetContent(1, 1, (char*)&waitforSendkind);
 				SendCommand(rets);
 				isFile = false;
+			}
+			else
+			{
+				DL("无效指令");
 			}
 		}
 	}

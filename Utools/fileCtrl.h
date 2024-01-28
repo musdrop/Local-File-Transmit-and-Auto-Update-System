@@ -40,7 +40,7 @@ namespace jeff
 	///
 	enum InfSignal
 	{
-		visitorloginRequest,//用于客户端登录时向服务器发起：携带id
+		visitorloginRequest = 1,//用于客户端登录时向服务器发起：携带id
 		sourceloginRequest,//用于客户端登录时向服务器发起：携带id
 		fileRequest,//用于访问端尝试访问文件源文件时发起：携带文件名
 		updataListRequest,//更新文件列表请求

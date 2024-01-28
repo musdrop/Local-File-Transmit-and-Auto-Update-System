@@ -8,8 +8,8 @@
 using namespace Net;
 using namespace jeff;
 //服务器ip端口
-#define ServerIp "0"
-#define ServerPort 0
+#define ServerIp "127.0.0.1"
+#define ServerPort 7070
 class Menu;
 #define FListMesSegSize 630//
 //登录身份
@@ -39,7 +39,7 @@ private:
 	char waitforSendkind = 0;//等待发送的长消息类型
 
 	//等待登录响应
-	int logInCode = 0;//0为未接受到响应,1为登录文件源成功，2为登录访问端成功，3为已有文件源，4为已有访问端，5为其他失败
+	int logInCode = 0;//-1为其他失败,0为未接受到响应,1为登录文件源成功，2为登录访问端成功，3为已有文件源，4为已有访问端
 
 	//指令通信
 	queue<TransmitSignal> commandsQue;//指令队列

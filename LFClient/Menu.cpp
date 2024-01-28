@@ -110,16 +110,24 @@ void Menu::StartSource()
 			}
 			break;
 		case 2:
-			return;
+			break;
 		default:
 			break;
 		}
 		if (isExit)
 		{
+			curm = &mainMenu;
 			break;
 		}
 		system("cls");
-		cout << "已订阅的文件如下：";
+		if (flist.TotalSize() > 0)
+		{
+			cout << "已订阅的文件如下：" << endl;
+		}
+		else
+		{
+			cout << "当前无订阅文件..." << endl;
+		}
 		flist.PrintFileNames();
 		ShowMenu();
 	}
@@ -184,6 +192,7 @@ void Menu::StartVisitor()
 				ControlVisitorMenu(isExit);
 				if (isExit)
 				{
+					curm = &mainMenu;
 					break;
 				}
 			}

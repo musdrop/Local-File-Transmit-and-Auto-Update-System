@@ -130,10 +130,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Test_1.cpp" />
+    <ClCompile Include="..\Utools\FileCtrlDef.cpp" />
+    <ClCompile Include="..\Utools\Logger.cpp" />
+    <ClCompile Include="..\Utools\Net.cpp" />
+    <ClCompile Include="ServerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Test_1.h" />
+    <ClInclude Include="..\Utools\Logger.h" />
+    <ClInclude Include="..\Utools\Net.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test.txt" />
